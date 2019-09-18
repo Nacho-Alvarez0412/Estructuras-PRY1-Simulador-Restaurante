@@ -1,7 +1,6 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 #include "Header.h"
-#include <QString>
 
 struct Client{
     int size;
@@ -19,7 +18,7 @@ struct NodoClient{
     Client* data;
     Client* nxt;
 
-    NodoClient()= default;
+    //NodoClient()= default;
 
 };
 
@@ -27,7 +26,7 @@ struct Entrance{
     NodoClient* first;
     NodoClient* last;
 
-    Entrance()= default;
+    //Entrance()= default;
 
     void queue(NodoClient*);
     NodoClient* unQueue(bool);
@@ -49,7 +48,7 @@ struct Ingredient{
 struct Recipe{
     Ingredient* first;
 
-    Recipe()= default;
+    //Recipe()= default;
 
     void insert(Ingredient*);
 };
@@ -83,7 +82,7 @@ struct Dishes{
     Dish* data;
     Dish* nxt;
 
-    Dishes()= default;
+    //Dishes()= default;
 };
 
 struct Receipt{
@@ -91,7 +90,7 @@ struct Receipt{
     int total;
     int table;
 
-    Receipt()= default;
+    //Receipt()= default;
 
     int totalDue();
 };
@@ -100,14 +99,14 @@ struct NodoReceipt{
     Receipt* data;
     Receipt* nxt;
 
-    NodoReceipt()= default;
+    //NodoReceipt()= default;
 
 };
 
 struct Receipts{
     NodoReceipt*first;
 
-    Receipts()= default;
+    //Receipts()= default;
 };
 
 struct Table{
@@ -116,7 +115,7 @@ struct Table{
     Dish* dishes[18]={};
     Receipts* receipts;
 
-    Table()= default;
+    //Table()= default;
 
 };
 
@@ -125,41 +124,41 @@ struct Order{
     int table;
     short satate;
 
-    Order()= default;
+    //Order()= default;
 };
 
 struct NodoOrder{
     Order* data;
     Order* nxt;
 
-    NodoOrder()= default;
+    //NodoOrder()= default;
 };
 
 struct Waiter{
     Table* tables[20]={};
     Order* order;
 
-    Waiter()= default;
+    //Waiter()= default;
 };
 
 struct Kitchen{
     NodoOrder* first;
 
-    Kitchen()= default;
+    //Kitchen()= default;
 };
 
 struct Dishwasher{
     NodoOrder* first;
     int cont;
 
-    Dishwasher()= default;
+    //Dishwasher()= default;
 };
 
 struct Checkout{
     NodoOrder* first;
     NodoOrder* last;
 
-    Checkout()= default;
+    //Checkout()= default;
 };
 
 #endif // STRUCTS_H
