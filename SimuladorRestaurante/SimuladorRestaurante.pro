@@ -20,7 +20,8 @@ SOURCES += \
     Simulador.cpp
 
 HEADERS += \
-    Header.h
+    Header.h \
+    Structs.h
     Structs.h
 
 FORMS += \

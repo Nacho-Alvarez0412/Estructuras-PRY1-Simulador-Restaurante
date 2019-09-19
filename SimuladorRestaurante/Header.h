@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QString>
+#include <QThread>
+#include <QRandomGenerator>
+#include <QDebug>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Simulador; }
@@ -20,22 +23,27 @@ private:
     Ui::Simulador *ui;
 };
 
-struct Client;
-struct NodoClient;
+// Prototipos de Estructuras
+
+struct Restaurant;
+
+/// Uses:
+
 struct Entrance;
-struct Ingredient;
-struct Recipe;
-struct Dish;
-struct Dishes;
-struct Receipt;
-struct NodoReceipt;
-struct Receipts;
-struct Table;
-struct Order;
-struct NodoOrder;
-struct Waiter;
-struct Kitchen;
-struct Dishwasher;
-struct Checkout;
+
+// Uses:
+struct Client;
+struct Node;
+struct ClientQueue;
+class ClientAssigner; // Thread
+class ClientGenerator; // Tread
+// End Entrance
+
+
+
+
+
+
+/// End Restaurant
 
 #endif // SIMULADOR_H
