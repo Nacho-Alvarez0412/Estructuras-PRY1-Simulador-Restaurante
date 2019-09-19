@@ -101,7 +101,7 @@ class ClientGenerator : QThread{
         while (start){
             size = randInt->bounded(1,6);
 
-            sleep(1); // Debe ser seteado por el usuario!!!
+            sleep(7); // Debe ser seteado por el usuario!!!
             while (pause)
                 sleep(1);
         }
