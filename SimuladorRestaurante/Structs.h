@@ -212,7 +212,7 @@ struct Table{
 struct Waiter{
 
 
-}
+};
 
 
 
