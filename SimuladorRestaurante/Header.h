@@ -33,17 +33,39 @@ struct Entrance;
 
 // Uses:
 struct Client;
-struct Node;
+struct ClientNode;
 struct ClientQueue;
 class ClientAssigner; // Thread
 class ClientGenerator; // Tread
 // End Entrance
 
 
+struct DinningRoom;
+
+//Uses:
+struct Table;
+struct Waiter;
+struct Cashier;
+struct Dish;
+struct Order;
+struct OrderNode;
+struct OrderQueue;
+// End DinningRoom
 
 
 
 
 /// End Restaurant
+
+
+/// Funciones globales
+
+
+static int randomInit(int seed)
+{
+    std::uniform_int_distribution<int> dist(1, seed);
+
+    return dist(*QRandomGenerator::global());
+}
 
 #endif // SIMULADOR_H
