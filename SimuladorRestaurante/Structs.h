@@ -2,13 +2,106 @@
 #define STRUCTS_H
 #include "Header.h"
 
+template <typename T>
+struct Node{
+    // Campos
+    Node<T> *nxt;
+    T data;
+
+    //Constructor
+    Node<T>(T* data){
+        this->nxt= nullptr;
+        this->data = data;
+    }
+};
+
+template <typename T>
+
+struct Queue{
+    //Campos
+    Node<T> *first, *last;
+
+    Queue<T>(){
+        this->first = this->last = nullptr;
+    }
+
+    bool isEmpty() {
+        return this->first == nullptr; }
+
+    void queue(T data){
+        if (this->isEmpty())
+            this->last = this->first = new Node<T>(data);
+        else{
+            this->last->next = new Node<T>(data);
+            this->last = this->last->next;
+        }
+    }
+
+    T unqueue(){
+        Node<T> * borrado = first;
+
+        if(!isEmpty()){
+            first = first->next;
+            borrado->next = nullptr;
+        }
+        else
+            return nullptr;
+        return borrado->data;
+    }
+};
+
+template<typename T>
+
+struct ListaSimple{
+    //Campos
+    T* primerNodo;
+
+    ListaSimple<T>(){
+        this->primerNodo = nullptr;
+    }
+
+    void insertar(T*data){
+        Node<T> temp = new Node<T>(data);
+        if(primerNodo == nullptr)
+            primerNodo = temp;
+        else {
+            temp.nxt = primerNodo;
+            primerNodo = temp;
+        }
+    }
+
+    Node<T> borrar(T value){
+        if (primerNodo == nullptr)
+            return nullptr;
+        else{
+            Node<T>* temp = primerNodo;
+            while(temp->nxt != nullptr){
+                if (temp->nxt->data == value){
+                    Node<T> * borrado = temp->nxt;
+                    temp->nxt = borrado->nxt;
+                    borrado->nxt = nullptr;
+                    return borrado;
+                }
+                else
+                    temp = temp->nxt;
+
+            }
+            return nullptr;
+        }
+    }
+
+};
+
+
 struct Client{
     int id;
     int quant;
 
-    Client(int id){
+    // Constructor
+
+    Client(int id, int quant){
         this->id = id;
-        this->quant = qrand() % 7;  // random between 1-6
+        this->quant = quant;  // random between 1-6
     }
 };
 
@@ -36,7 +129,8 @@ struct ClientQueue{
         top = base = nullptr;
     }
 
-    void queued(ClientNode*node){
+    void queued(Client*client){
+        ClientNode* node = new ClientNode(client);
         if (top == base){
             if (top == nullptr){
                 top = base = node;  // Lista vacia
@@ -79,45 +173,47 @@ struct ClientQueue{
     }
 };
 
-class ClientGenerator : QThread{
-    //Atributos
-    ClientQueue* clientQueue;
-    bool start;
-    bool pause;
+struct Table{
+    // Campos
 
-    //Constructor
+    Client * client;
+    int id;
+    Dish* dishArray[18] = {};
 
-    ClientGenerator();
+    // Constructor
 
-    void __init__(ClientQueue* clientQueue){
-        start = true;
-        this->clientQueue = clientQueue;
-        pause = true;
+    Table(int id){
+        client = nullptr;
+        this->id = id;
     }
 
-    void run(){
-        int size;
-        QRandomGenerator* randInt = new QRandomGenerator();
-        while (start){
-            size = randInt->bounded(1,6);
+    // Metodos
 
-            sleep(7); // Debe ser seteado por el usuario!!!
-            while (pause)
-                sleep(1);
+    void setClient(Client*client){
+        this->client = client;
+}
+
+    int lenght(){
+        int cont = 0;
+        while (dishArray[cont] != nullptr){
+            cont++;
         }
+        return cont;
     }
 
-    void StartPause(){
-        this->pause = true;
+    void addDish(Dish*dish){
+        int len = lenght();
+        this->dishArray[len] = dish;
     }
 
-    void StopPause(){
-        this->pause = false;
-    }
-
-
-
-
+// Falta el obtener factura!!!!!
 };
+
+struct Waiter{
+
+
+}
+
+
 
 #endif // STRUCTS_H

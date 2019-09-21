@@ -1,11 +1,15 @@
-#include "Header.h"
+#include "Threads.h"
 
-#include <QApplication>
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    Simulador w;
-    w.show();
-    return a.exec();
+int main(int argc, char *argv[]){
+
+    ClientQueue *cola = new ClientQueue();
+    ThreadClientGenerator e;
+    e.__init__(cola);
+    e.setIntervalo(1,6);
+    e.run();
+
+
+
+    return 0;
 }

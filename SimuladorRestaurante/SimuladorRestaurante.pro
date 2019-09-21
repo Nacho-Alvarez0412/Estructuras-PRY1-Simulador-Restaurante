@@ -21,7 +21,8 @@ SOURCES += \
 
 HEADERS += \
     Header.h \
-    Structs.h
+    Structs.h \
+    Threads.h
     Structs.h
 
 FORMS += \
