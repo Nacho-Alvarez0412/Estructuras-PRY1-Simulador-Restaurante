@@ -61,11 +61,11 @@ struct ListaSimple{
     }
 
     void insertar(T*data){
-        Node<T> temp = new Node<T>(data);
+        Node<T>* temp = new Node<T>(data);
         if(primerNodo == nullptr)
             primerNodo = temp;
         else {
-            temp.nxt = primerNodo;
+            temp->nxt = primerNodo;
             primerNodo = temp;
         }
     }
@@ -90,6 +90,31 @@ struct ListaSimple{
         }
     }
 
+};
+
+
+template <typename T>
+
+struct Stack{
+    Node<T> * top;
+
+    Stack<T>()= default;
+
+    void push(T*data){
+        Node<T>* ptr = new Node<T>(data);
+        ptr->nxt = top;
+        top = ptr;
+    }
+
+    Node<T>* pop(){
+        Node<T>* deleted = top;
+        top = deleted->nxt;
+        deleted->nxt = nullptr;
+    }
+
+    Node<T>* peek(){
+        return top;
+    }
 };
 
 
