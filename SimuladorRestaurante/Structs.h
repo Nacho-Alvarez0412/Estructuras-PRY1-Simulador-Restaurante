@@ -299,15 +299,77 @@ struct Dish{
 
 };
 
+struct NodeChashier{
+    //Campos
+    int data;
+    NodeChashier* nxt;
+
+    //Constructor
+    NodeChashier(int data){
+        this->data = data;
+        this->nxt = nullptr;
+    }
+};
+
 
 struct Cashier{
     //Campos
-    bool state;
+    bool state; // true = queue; false = stack
     int earnings;
+    NodeChashier* first;
+    NodeChashier* last;
 
+    //Constructor
+    Cashier(){
+        this->state = true;
+        this->earnings = 0;
+        this->first = this->last = nullptr;
+    }
 
+    //Metodos
+    void add(int data){
+        NodeChashier* add = new NodeChashier(data);
+        if (first == nullptr)
+            first = last = add;
+        else {
+            last->nxt = add;
+            last = add;
+        }
+    }
 
+    NodeChashier* prevLast(){
+        NodeChashier* ptr = first;
+        if (first == nullptr || first == last)
+            return nullptr;
+        while (ptr->nxt != last){
+            ptr = ptr->nxt;
+        }
+        return ptr;
+    }
 
+    int remove(){
+        NodeChashier* deleted;
+        if (this->state){
+            deleted = first;
+            first = first->nxt;
+            deleted->nxt = nullptr;
+        } else {
+            if (last != nullptr){
+                deleted = last;
+                if (first != last)
+                    prevLast()->nxt = nullptr;
+                else
+                    first = last = nullptr;
+            } else
+                return 0;
+        }
+        this->earnings += deleted->data;
+        return deleted->data;
+    }
+
+    void changeState(){
+        this->state = !this->state;
+    }
 
 };
 
