@@ -21,6 +21,7 @@ SOURCES += \
 
 HEADERS += \
     Header.h \
+    RestaurantStructs.h \
     Structs.h \
     Threads.h
     Structs.h

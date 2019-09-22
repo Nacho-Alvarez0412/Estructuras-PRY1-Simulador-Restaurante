@@ -36,8 +36,8 @@ struct Entrance;
 struct Client;
 struct ClientNode;
 struct ClientQueue;
-class ClientAssigner; // Thread
-class ClientGenerator; // Tread
+class ThreadClientAssigner; // Thread
+class ThreadClientGenerator; // Tread
 // End Entrance
 
 

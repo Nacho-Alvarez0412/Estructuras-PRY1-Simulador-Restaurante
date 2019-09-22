@@ -203,19 +203,27 @@ struct Table{
 
     Client * client;
     int id;
+    int state; // 0 = free, 1 = occuied, 2 = reserved
     ListaSimple<Dish>* dishes;
 
     // Constructor
 
     Table(int id){
-        client = nullptr;
+        this->state = 0;
+        this->client = nullptr;
         this->id = id;
+        this->dishes = nullptr;
     }
 
     // Metodos
 
     void setClient(Client*client){
+        this->state = 1;
         this->client = client;
+    }
+
+    void setReserve(){
+        this->state = 2;
     }
 
 
@@ -225,6 +233,12 @@ struct Table{
 
     ListaSimple<Dish>* getDishes(){
         return dishes;
+    }
+
+    void setFree(){
+        this->state = 0;
+        this->client = nullptr;
+        this->dishes = nullptr; // Puede llenar la memoria de basura
     }
 
 };
@@ -385,6 +399,7 @@ struct Chef{
         this->activate = activate;
     }
 };
+
 
 
 
