@@ -55,6 +55,14 @@ public:
        this->pause = false;
    }
 
+};
+
+
+class ThreadCocina : QThread{
+    //Atributos
+public:
+    bool start;
+    bool pause;
 
 
 };

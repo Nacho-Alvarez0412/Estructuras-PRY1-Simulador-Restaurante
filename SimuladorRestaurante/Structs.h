@@ -374,5 +374,18 @@ struct Cashier{
 };
 
 
+struct Chef{
+    //Campos
+    Dish* dish;
+    bool activate;
+
+    //Constructor
+    Chef(Dish* dish, bool activate){
+        this->dish = dish;
+        this->activate = activate;
+    }
+};
+
+
 
 #endif // STRUCTS_H
