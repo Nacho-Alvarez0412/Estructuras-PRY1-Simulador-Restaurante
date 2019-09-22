@@ -6,6 +6,7 @@
 #include <QThread>
 #include <QRandomGenerator>
 #include <QDebug>
+#include <QBEInteger>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Simulador; }
@@ -48,8 +49,7 @@ struct Waiter;
 struct Cashier;
 struct Dish;
 struct Order;
-struct OrderNode;
-struct OrderQueue;
+
 // End DinningRoom
 
 

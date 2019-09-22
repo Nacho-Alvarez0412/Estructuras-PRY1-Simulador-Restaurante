@@ -1,4 +1,4 @@
-#ifndef STRUCTS_H
+﻿#ifndef STRUCTS_H
 #define STRUCTS_H
 #include "Header.h"
 
@@ -6,7 +6,7 @@ template <typename T>
 struct Node{
     // Campos
     Node<T> *nxt;
-    T data;
+    T* data;
 
     //Constructor
     Node<T>(T* data){
@@ -28,25 +28,25 @@ struct Queue{
     bool isEmpty() {
         return this->first == nullptr; }
 
-    void queue(T data){
+    void queue(T* data){
         if (this->isEmpty())
             this->last = this->first = new Node<T>(data);
         else{
-            this->last->next = new Node<T>(data);
-            this->last = this->last->next;
+            last->nxt = new Node<T>(data);
+            last = last->nxt;
         }
     }
 
-    T unqueue(){
+    Node<T>* unqueue(){
         Node<T> * borrado = first;
 
         if(!isEmpty()){
-            first = first->next;
-            borrado->next = nullptr;
+            first = first->nxt;
+            borrado->nxt = nullptr;
         }
         else
             return nullptr;
-        return borrado->data;
+        return borrado;
     }
 };
 
@@ -54,7 +54,7 @@ template<typename T>
 
 struct ListaSimple{
     //Campos
-    T* primerNodo;
+    Node<T>* primerNodo;
 
     ListaSimple<T>(){
         this->primerNodo = nullptr;
@@ -203,7 +203,7 @@ struct Table{
 
     Client * client;
     int id;
-    Dish* dishArray[18] = {};
+    ListaSimple<Dish>* dishes;
 
     // Constructor
 
@@ -216,25 +216,97 @@ struct Table{
 
     void setClient(Client*client){
         this->client = client;
-}
-
-    int lenght(){
-        int cont = 0;
-        while (dishArray[cont] != nullptr){
-            cont++;
-        }
-        return cont;
     }
+
 
     void addDish(Dish*dish){
-        int len = lenght();
-        this->dishArray[len] = dish;
+        this->dishes->insertar(dish);
     }
 
-// Falta el obtener factura!!!!!
+    ListaSimple<Dish>* getDishes(){
+        return dishes;
+    }
+
 };
 
+struct Order{
+
+    //Campos
+    int task; // 1 = Pedir orden, 2 = Dejar orden en la cocina, 3 = Recoger orden, 4 = Entregar orden, 5 = facturar orden
+    ListaSimple<Dish>* dishes;
+
+    // Constructor
+    Order(){
+        this->task = 1;
+        this->dishes->primerNodo = nullptr;
+    }
+
+    void changeOrderState(int state){
+        this->task = state;
+    }
+
+    void setDish(ListaSimple<Dish>*dishes){
+        this->dishes = dishes;
+    }
+};
+
+
 struct Waiter{
+    // Campos
+
+    ListaSimple<Table>* tables;
+    Queue<Order>* ordersQueue;
+
+    // Constructor
+    Waiter(ListaSimple<Table>* tables){
+        this->tables = tables;
+        ordersQueue->last=ordersQueue->last = nullptr;
+    }
+
+    void addOrder(Order*order){
+        ordersQueue->queue(order);
+    }
+
+    Order* delieverOrder(){
+        return ordersQueue->unqueue()->data;
+    }
+
+};
+
+struct Dish{
+    // Campos
+    QString name;
+    ListaSimple<QString>* ingredients;
+    int cookTime;
+    int eatTime;
+    int washTime;
+    int id;
+    int type;   // 1 = ensaladas , 2 = plato fuerte, 3 = reposteria
+    int price;
+
+    // Constructor
+
+    Dish(int cookTime,int eatTime,int washTime,int id,int type,int price,QString name, ListaSimple<QString>*ingredients){
+        this->id = id;
+        this->name =name;
+        this->type = type;
+        this->price=price;
+        this->eatTime = eatTime;
+        this->cookTime = cookTime;
+        this->washTime = washTime;
+        this->ingredients = ingredients;
+    }
+
+};
+
+
+struct Cashier{
+    //Campos
+    bool state;
+    int earnings;
+
+
+
 
 
 };
