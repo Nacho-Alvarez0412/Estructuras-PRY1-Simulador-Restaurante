@@ -395,8 +395,8 @@ struct Chef{
     bool activate;
 
     //Constructor
-    Chef(Dish* dish, bool activate){
-        this->dish = dish;
+    Chef(bool activate){
+        this->dish = nullptr;
         this->activate = activate;
     }
 };

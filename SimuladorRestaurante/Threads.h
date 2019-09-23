@@ -123,13 +123,99 @@ public:
 
 
 
-class ThreadCocina : QThread{
+class ThreadKitchen : QThread{
     //Atributos
 public:
     bool start;
     bool pause;
+    Chef* chefs[3] = {new Chef(false), new Chef(false), new Chef(false)};
+
+    //Constructor
+    ThreadKitchen(){}
+
+    //Metodos
+    void __init__(int cant){
+        this->start = true;
+        this->pause = false;
+        switch(cant){
+        case 1:
+            this->chefs[0]->activate = true;
+            this->chefs[1]->activate = this->chefs[2]->activate = false;
+            break;
+        case 3:
+            this->chefs[0]->activate = this->chefs[1]->activate = this->chefs[2]->activate = true;
+            break;
+        default:
+            this->chefs[0]->activate = this->chefs[1]->activate = this->chefs[2]->activate = false;
+            break;
+        }
+    }
+
+    void run() {
+        //Working on it
+    }
+
+    void Pause(){
+        this->pause = true;
+    }
+
+    void Unpause(){
+        this->pause = false;
+    }
+
+    void switchChef(int id){
+        switch(id){
+        if (id < 3 && id > -1)
+            this->chefs[id]->activate = !this->chefs[id]->activate;
+    }
 
 
+};
+
+
+class ThreadDishWasher : QThread{
+    //Atributos
+public:
+    bool start;
+    bool pause;
+    Stack<Dish>* dishes;
+    int total;
+
+    //Constructor
+    ThreadDishWasher(){}
+
+    //Metodos
+    void __init__(Stack<Dish>* dishes){
+        this->start = true;
+        this->pause = false;
+        this->dishes = dishes;
+        this->total = 0;
+    }
+
+    void run() {
+        while(start){
+            Node<Dish>* ptr = this->dishes->peek();
+            if (ptr != nullptr){
+                sleep(ptr->data->washTime);
+                this->total++;
+                dishes->pop();
+            }
+            while(pause)
+                sleep(1);
+        }
+    }
+
+    void Pause(){
+        this->pause = true;
+    }
+
+    void Unpause(){
+        this->pause = false;
+    }
+
+    void addDish(Dish* dish){
+        dishes->push(dish);
+    }
 };
 
 #endif // THREADS_H
