@@ -163,12 +163,9 @@ public:
     }
 
     void switchChef(int id){
-        switch(id){
-        if (id < 3 && id > -1)
+        if (0 < id && id < 4)
             this->chefs[id]->activate = !this->chefs[id]->activate;
     }
-
-
 };
 
 
@@ -215,6 +212,8 @@ public:
     void addDish(Dish* dish){
         dishes->push(dish);
     }
+
 };
+
 
 #endif // THREADS_H
