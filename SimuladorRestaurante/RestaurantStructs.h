@@ -1,3 +1,4 @@
+//hi
 #ifndef RESTAURANTSTRUCT_H
 #define RESTAURANTSTRUCT_H
 

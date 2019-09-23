@@ -1,4 +1,5 @@
-﻿#ifndef STRUCTS_H
+﻿//hi
+#ifndef STRUCTS_H
 #define STRUCTS_H
 #include "Header.h"
 
