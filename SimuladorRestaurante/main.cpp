@@ -1,4 +1,3 @@
-//hi
 #include "RestaurantStructs.h"
 
 
