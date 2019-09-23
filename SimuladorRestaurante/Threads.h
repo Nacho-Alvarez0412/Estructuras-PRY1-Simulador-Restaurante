@@ -263,8 +263,6 @@ public:
             while (pause)
                 sleep(1);
         }
-
-
     }
 
 };
