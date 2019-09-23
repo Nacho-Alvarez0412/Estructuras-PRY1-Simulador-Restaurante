@@ -388,7 +388,7 @@ struct Cashier{
 };
 
 
-struct Chef{
+/*struct Chef{
     //Campos
     Dish* dish;
     bool activate;
@@ -398,7 +398,7 @@ struct Chef{
         this->dish = dish;
         this->activate = activate;
     }
-};
+};*/
 
 
 

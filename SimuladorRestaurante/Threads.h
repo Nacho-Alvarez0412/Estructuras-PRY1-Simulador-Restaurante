@@ -122,13 +122,13 @@ public:
 
 
 
-class ThreadCocina : QThread{
+/*class ThreadCocina : QThread{
     //Atributos
 public:
     bool start;
     bool pause;
 
 
-};
+};*/
 
 #endif // THREADS_H
