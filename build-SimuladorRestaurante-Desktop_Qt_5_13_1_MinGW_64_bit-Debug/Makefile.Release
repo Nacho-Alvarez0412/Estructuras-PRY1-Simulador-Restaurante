@@ -226,7 +226,7 @@ release/moc_Header.cpp: ../SimuladorRestaurante/Header.h \
 		C:/Qt/5.13.1/mingw73_64/include/QtCore/qfloat16.h \
 		release/moc_predefs.h \
 		C:/Qt/5.13.1/mingw73_64/bin/moc.exe
-	C:\Qt\5.13.1\mingw73_64\bin\moc.exe $(DEFINES) --include C:/Users/nacho/Desktop/Proyectos/C++/SimulacionRestaurante/SimulacionRestaurante/build-SimuladorRestaurante-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/5.13.1/mingw73_64/mkspecs/win32-g++ -IC:/Users/nacho/Desktop/Proyectos/C++/SimulacionRestaurante/SimulacionRestaurante/SimuladorRestaurante -IC:/Qt/5.13.1/mingw73_64/include -IC:/Qt/5.13.1/mingw73_64/include/QtWidgets -IC:/Qt/5.13.1/mingw73_64/include/QtGui -IC:/Qt/5.13.1/mingw73_64/include/QtANGLE -IC:/Qt/5.13.1/mingw73_64/include/QtCore -I. -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Tools/mingw730_64/x86_64-w64-mingw32/include ..\SimuladorRestaurante\Header.h -o release\moc_Header.cpp
+	C:\Qt\5.13.1\mingw73_64\bin\moc.exe $(DEFINES) --include C:/Users/thelo/Desktop/C++/SimulacionRestaurante3.0/build-SimuladorRestaurante-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/5.13.1/mingw73_64/mkspecs/win32-g++ -IC:/Users/thelo/Desktop/C++/SimulacionRestaurante3.0/SimuladorRestaurante -IC:/Qt/5.13.1/mingw73_64/include -IC:/Qt/5.13.1/mingw73_64/include/QtWidgets -IC:/Qt/5.13.1/mingw73_64/include/QtGui -IC:/Qt/5.13.1/mingw73_64/include/QtANGLE -IC:/Qt/5.13.1/mingw73_64/include/QtCore -I. -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Tools/mingw730_64/x86_64-w64-mingw32/include ..\SimuladorRestaurante\Header.h -o release\moc_Header.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -489,7 +489,23 @@ release/Simulador.o: ../SimuladorRestaurante/Simulador.cpp ../SimuladorRestauran
 		C:/Qt/5.13.1/mingw73_64/include/QtCore/QBEInteger \
 		C:/Qt/5.13.1/mingw73_64/include/QtCore/qendian.h \
 		C:/Qt/5.13.1/mingw73_64/include/QtCore/qfloat16.h \
-		ui_GUI.h
+		ui_GUI.h \
+		C:/Qt/5.13.1/mingw73_64/include/QtCore/QVariant \
+		C:/Qt/5.13.1/mingw73_64/include/QtWidgets/QApplication \
+		C:/Qt/5.13.1/mingw73_64/include/QtWidgets/qapplication.h \
+		C:/Qt/5.13.1/mingw73_64/include/QtCore/qcoreapplication.h \
+		C:/Qt/5.13.1/mingw73_64/include/QtCore/qeventloop.h \
+		C:/Qt/5.13.1/mingw73_64/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/5.13.1/mingw73_64/include/QtGui/qguiapplication.h \
+		C:/Qt/5.13.1/mingw73_64/include/QtGui/qinputmethod.h \
+		C:/Qt/5.13.1/mingw73_64/include/QtWidgets/QMenuBar \
+		C:/Qt/5.13.1/mingw73_64/include/QtWidgets/qmenubar.h \
+		C:/Qt/5.13.1/mingw73_64/include/QtWidgets/qmenu.h \
+		C:/Qt/5.13.1/mingw73_64/include/QtWidgets/qaction.h \
+		C:/Qt/5.13.1/mingw73_64/include/QtWidgets/qactiongroup.h \
+		C:/Qt/5.13.1/mingw73_64/include/QtWidgets/QStatusBar \
+		C:/Qt/5.13.1/mingw73_64/include/QtWidgets/qstatusbar.h \
+		C:/Qt/5.13.1/mingw73_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\Simulador.o ..\SimuladorRestaurante\Simulador.cpp
 
 release/moc_Header.o: release/moc_Header.cpp 

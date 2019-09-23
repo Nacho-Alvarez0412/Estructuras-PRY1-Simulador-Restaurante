@@ -15,9 +15,5 @@ int main(int argc, char *argv[]){
     tables->insertar(t4);
     entrada->tables = tables;
     entrada->EntranceStart();
-
-
-
-
     return 0;
 }

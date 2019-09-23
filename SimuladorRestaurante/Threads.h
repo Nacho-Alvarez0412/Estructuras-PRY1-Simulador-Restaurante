@@ -122,7 +122,7 @@ public:
 
 
 
-class ThreadKitchen : QThread{
+/*class ThreadKitchen : QThread{
     //Atributos
 public:
     bool start;
@@ -166,8 +166,108 @@ public:
         if (0 < id && id < 4)
             this->chefs[id]->activate = !this->chefs[id]->activate;
     }
+};*/
+
+class ThreadChef : QThread{
+    //Atributos
+public:
+    bool start;
+    bool free; //pause
+    int type;
+    Dish* dish;
+
+    //Constructor
+    ThreadChef(int type){
+        __init__(type);
+    }
+
+    //Metodos
+    void __init__(int type){
+        this->start = true;
+        this->free = true;
+        this->dish = nullptr;
+        this->type = type;
+    }
+
+    void run(){
+        while (start){
+            while (free)
+                sleep(1);
+            sleep(dish->cookTime);
+            dish->id++;
+            free = true;
+        }
+    }
+
+    void Pause(){
+        this->free = true;
+    }
+
+    void Unpause(){
+        this->free = false;
+    }
+
 };
 
+class ThreadKitchen : QThread{
+    //Atributos
+public:
+    Queue<Dish>* order;
+    Queue<Dish>* cooked;
+    bool start;
+    bool pause;
+    ListaSimple<ThreadChef>* chefs;
+
+    //Constructor
+    ThreadKitchen(){}
+
+    //Metodos
+    void __init__(){
+        // Initialize data
+        this->order = new Queue<Dish>();
+        this->cooked = new Queue<Dish>();
+        this->start = true;
+        this->pause = false;
+
+        // Initialize Threads
+        this->chefs->insertar(new ThreadChef(1));
+        this->chefs->insertar(new ThreadChef(2));
+        this->chefs->insertar(new ThreadChef(2));
+        this->chefs->insertar(new ThreadChef(2));
+        this->chefs->insertar(new ThreadChef(3));
+
+        // Start Threads
+        this->chefs->primerNodo->data->run();
+        this->chefs->primerNodo->nxt->data->run();
+        this->chefs->primerNodo->nxt->nxt->data->run();
+        this->chefs->primerNodo->nxt->nxt->nxt->data->run();
+        this->chefs->primerNodo->nxt->nxt->nxt->nxt->data->run();
+    }
+
+    void run(){
+        while (start){
+            Node<Dish>* dish = order->first;
+            while (dish != nullptr){
+                Node<ThreadChef>* chef = chefs->primerNodo;
+                int type = dish->data->id;
+                while(chef != nullptr){
+                    if (chef->data->free && chef->data->type == type){
+                        chef->data->dish = dish->data;
+                        chef->data->Unpause();
+                        break;
+                    }
+                    chef = chef->nxt;
+                }
+                dish = dish->nxt;
+            }
+            while (pause)
+                sleep(1);
+        }
+
+
+    }
+
+};
 
 class ThreadDishWasher : QThread{
     //Atributos
