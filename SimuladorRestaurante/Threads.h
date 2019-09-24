@@ -55,10 +55,10 @@ public:
 };
 
 
-class ThreadClientAssigner : QThread{
+class ThreadClientAssigner : public QThread{
     //Atributos
 public:
-    bool start;
+    bool running;
     bool pause;
     ClientQueue* clientQueue;
     ListaSimple<Table>* tables;
@@ -79,14 +79,14 @@ public:
     }
 
     void __init__(ClientQueue*clientQueue,ListaSimple<Table>*tables){
-        this->start = true;
+        this->running = true;
         this->pause =  false;
         this->tables = tables;
         this->clientQueue = clientQueue;
     }
 
     void run() {
-        while(start){
+        while(running){
 
             if(clientQueue->top != nullptr){
                 Client*client;
@@ -120,7 +120,7 @@ public:
     }
 };
 
-class ThreadChef : QThread{
+class ThreadChef : public QThread{
     //Atributos
 public:
     bool start;

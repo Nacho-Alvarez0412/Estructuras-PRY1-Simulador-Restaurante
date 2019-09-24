@@ -18,13 +18,11 @@ struct Entrance{
         this->clientQueue = new ClientQueue();
         clientGenerator.__init__(clientQueue);
         clientGenerator.setIntervalo(1,10); // Deben ser preguntados en una interfaz grafica
-        clientAssigner.__init__(clientQueue,tables);
 
     }
 
     void EntranceStart(){
-        clientAssigner.run();
-        clientGenerator.run();
+        clientGenerator.start();
 
 
     }
