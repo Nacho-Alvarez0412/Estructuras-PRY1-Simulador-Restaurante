@@ -183,7 +183,7 @@ public:
 class ThreadChef : public QThread{
     //Atributos
 public:
-    bool start;
+    bool running;
     bool free; //pause
     int type;
     Dish* dish;
@@ -193,14 +193,14 @@ public:
 
     //Metodos
     void __init__(int type){
-        this->start = true;
+        this->running = true;
         this->free = true;
         this->dish = nullptr;
         this->type = type;
     }
 
     void run(){
-        while (start){
+        while (running){
             while (free)
                 sleep(1);
             sleep(dish->cookTime);
