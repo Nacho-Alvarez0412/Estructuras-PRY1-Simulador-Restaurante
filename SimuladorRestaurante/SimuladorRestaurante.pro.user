@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.10.0, 2019-09-23T20:46:22. -->
+<!-- Written by QtCreator 4.10.0, 2019-09-23T21:17:43. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -306,8 +306,8 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">SimuladorRestaurante</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/nacho/Desktop/SimulacionRestaurante-62ed762963e4f01798470d6a0b21489785747f2f/SimuladorRestaurante/SimuladorRestaurante.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">SimuladorRestaurante2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/nacho/Desktop/Proyectos/C++/SimulacionRestaurante/SimulacionRestaurante/SimuladorRestaurante/SimuladorRestaurante.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>

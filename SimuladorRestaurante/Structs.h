@@ -61,14 +61,16 @@ struct ListaSimple{
     }
 
     void insertar(T*data){
-        Node<T>* temp = new Node<T>(data);
-        if(primerNodo == nullptr)
-            primerNodo = temp;
-        else {
-            temp->nxt = primerNodo;
-            primerNodo = temp;
-        }
+        Node<T>* temp = primerNodo;
+         if (temp == nullptr){
+             primerNodo = new Node<T>(data);
+             return;
+         }
+         while(temp->nxt != nullptr)
+             temp = temp->nxt;
+         temp->nxt = new Node<T>(data);
     }
+
 
     Node<T> borrar(T value){
         if (primerNodo == nullptr)
@@ -187,7 +189,7 @@ struct ClientQueue{
             base->nxt = nullptr;
         } else {
             deleted = top;
-            top->nxt = top;
+            top = top->nxt;
             deleted->nxt = nullptr;
         }
         return deleted;
