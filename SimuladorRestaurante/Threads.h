@@ -30,7 +30,7 @@ public:
    void run(){
        int size;
        int sleepTime;
-       int cont = 0;
+       int cont = 1;
        while (running){
            size = (randomInit(4122001)%6 +1);
            sleepTime = ((randomInit(4122001)%lastInterval) + firstInterval);
@@ -38,7 +38,8 @@ public:
            clientQueue->queued(client);
            qDebug() << "Cliente creado con exito!"<<cont<<" "<<size;
            cont++;
-           sleep(sleepTime);
+           pause = true;
+           sleep(sleepTime+3);
            while (pause)
                sleep(1);
        }
@@ -53,6 +54,9 @@ public:
    }
 
 };
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 class ThreadClientAssigner : public QThread{
@@ -94,7 +98,9 @@ public:
                     client = clientQueue->unqueue(false)->data;
                     Table* table = firstVacancy()->data;
                     table->setClient(client);
+                    qDebug() << client->id;
                     qDebug() << "Sentado con exito";
+                    pause = true;
                 }
                 else
                     qDebug() << "Esta lleno.... esperando";
@@ -105,7 +111,6 @@ public:
             sleep(5);
             while(pause){
                 sleep(1);
-                qDebug() << "Restaurante cerrado, nadie entra";
             }
 
         }
@@ -119,6 +124,61 @@ public:
         this->pause = false;
     }
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+class ThreadWaiter : public QThread{
+    //Atributos
+public:
+    bool running;
+    bool pause;
+    Waiter*waiter;
+
+    //Constructor
+    ThreadWaiter(){}
+
+    //Metodos
+    void __init__(Waiter*waiter){
+        this->running = true;
+        this->pause = false;
+        this->waiter = waiter;
+
+    }
+
+    void run(){
+        while(running){
+            Node<Table>*table = waiter->tables->primerNodo;
+
+            if(table->data->state == 1){
+                qDebug() << "Atendiendo mesa #" << table->data->id;
+            }
+            else
+                qDebug() << "Mesa vacia";
+            table = table->nxt;
+            sleep(3);
+
+            while(pause)
+                sleep(1);
+        }
+    }
+
+    void Pause(){
+        this->pause = true;
+    }
+
+    void Unpause(){
+        this->pause = false;
+    }
+
+    ListaSimple<Dish>* askOrder(){
+
+    }
+
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class ThreadChef : public QThread{
     //Atributos
@@ -158,6 +218,9 @@ public:
     }
 
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class ThreadKitchen : QThread{
     //Atributos
@@ -217,6 +280,9 @@ public:
 
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 class ThreadDishWasher : QThread{
     //Atributos
 public:
@@ -262,6 +328,10 @@ public:
     }
 
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 class ThreadRestaurant : QThread{
 public:
     //Campos

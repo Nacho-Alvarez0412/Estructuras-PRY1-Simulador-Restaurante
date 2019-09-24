@@ -127,6 +127,68 @@ struct Stack{
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+struct NodeIngredient{
+    //Campos
+    QString data;
+    NodeIngredient* nxt;
+
+    //Constructor
+    NodeIngredient(QString name){
+        this->data = name;
+        this->nxt = nullptr;
+    }
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+struct ListaSimpleIngredient{
+    //Campos
+    NodeIngredient * primerNodo;
+
+    //Constructor
+    ListaSimpleIngredient(){
+        primerNodo = nullptr;
+    }
+
+    //Metodos
+
+    void insertar(QString data){
+        NodeIngredient* temp = primerNodo;
+         if (temp == nullptr){
+             primerNodo = new NodeIngredient(data);
+             return;
+         }
+         while(temp->nxt != nullptr)
+             temp = temp->nxt;
+         temp->nxt = new NodeIngredient(data);
+    }
+
+
+    NodeIngredient* borrar(QString value){
+        if (primerNodo == nullptr)
+            return nullptr;
+        else{
+            NodeIngredient* temp = primerNodo;
+            while(temp->nxt != nullptr){
+                if (temp->nxt->data == value){
+                    NodeIngredient * borrado = temp->nxt;
+                    temp->nxt = borrado->nxt;
+                    borrado->nxt = nullptr;
+                    return borrado;
+                }
+                else
+                    temp = temp->nxt;
+
+            }
+            return nullptr;
+        }
+    }
+
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 struct Client{
     int id;
@@ -139,6 +201,41 @@ struct Client{
         this->quant = quant;  // random between 1-6
     }
 };
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+struct Menu{
+    //Campos
+    int Entrada;
+    int PlatoFuerte;
+    int Postre;
+    ListaSimple<Dish>* menu;
+
+    Menu(int entrada,int platoFuerte,int Postre,ListaSimple<Dish>*menu){
+        this->Entrada = entrada;
+        this->PlatoFuerte = platoFuerte;
+        this->Postre = Postre;
+        this->menu = menu;
+    }
+
+    ListaSimple<Dish>* getMenu(){
+        return menu;
+    }
+
+    void setProbEntrada(int value){
+        this->Entrada = value;
+    }
+
+    void setProbPlatoFuerte(int value){
+        this->PlatoFuerte = value;
+    }
+
+    void setProbPostre(int value){
+        this->Postre = value;
+    }
+};
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -222,12 +319,14 @@ struct Table{
 
     Client * client;
     int id;
-    int state; // 0 = free, 1 = occuied, 2 = reserved
+    int state; // 0 = free, 1 = occupied, 2 = reserved
     ListaSimple<Dish>* dishes;
+    Menu* menu;
 
     // Constructor
 
-    Table(int id){
+    Table(int id,Menu*menu){
+        this->menu = menu;
         this->state = 0;
         this->client = nullptr;
         this->id = id;
@@ -297,7 +396,7 @@ struct Waiter{
     // Constructor
     Waiter(ListaSimple<Table>* tables){
         this->tables = tables;
-        ordersQueue->last=ordersQueue->last = nullptr;
+        ordersQueue = new Queue<Order>;
     }
 
     void addOrder(Order*order){
@@ -315,7 +414,7 @@ struct Waiter{
 struct Dish{
     // Campos
     QString name;
-    ListaSimple<QString>* ingredients;
+    ListaSimpleIngredient* ingredients;
     int cookTime;
     int eatTime;
     int washTime;
@@ -325,7 +424,7 @@ struct Dish{
 
     // Constructor
 
-    Dish(int cookTime,int eatTime,int washTime,int id,int type,int price,QString name, ListaSimple<QString>*ingredients){
+    Dish(int cookTime,int eatTime,int washTime,int id,int type,int price,QString name, ListaSimpleIngredient*ingredients){
         this->id = id;
         this->name =name;
         this->type = type;
@@ -430,9 +529,6 @@ struct Chef{
         this->activate = activate;
     }
 };
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 #endif // STRUCTS_H

@@ -3,17 +3,34 @@
 
 int main(int argc, char *argv[]){
    ListaSimple<Table>* tables = new ListaSimple<Table>();
-   Table* t1 = new Table(1);
-   Table* t2 = new Table(2);
-   Table* t3 = new Table(3);
-   Table* t4 = new Table(4);
+   ListaSimple<Dish>* platillos = new ListaSimple<Dish>();
+   ListaSimpleIngredient* ingr = new ListaSimpleIngredient();
+   ClientQueue *cola = new ClientQueue();
+   Waiter * w1 = new Waiter(tables);
+
+   ingr->insertar("Pollo");
+   ingr->insertar("Salsa");
+   ingr->insertar("Cebolla");
+
+   Menu* menu = new Menu(4,8,2,platillos);
+   Table* t1 = new Table(1,menu);
+   Table* t2 = new Table(2,menu);
+   Table* t3 = new Table(3,menu);
+   Table* t4 = new Table(4,menu);
+
+
+   Dish* d1 = new Dish(4,5,6,1,1,300,"Pollo a la Lena",ingr);
 
    tables->insertar(t1);
    tables->insertar(t2);
    tables->insertar(t3);
    tables->insertar(t4);
 
-   ClientQueue *cola = new ClientQueue();
+
+
+   ThreadWaiter w;
+   w.__init__(w1);
+   w.start();
 
    qDebug() << "Hola";
 
