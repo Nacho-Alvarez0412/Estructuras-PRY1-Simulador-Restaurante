@@ -222,7 +222,7 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-class ThreadKitchen : QThread{
+class ThreadKitchen : public QThread{
     //Atributos
 public:
     Queue<Dish>* order;
@@ -235,7 +235,7 @@ public:
     ThreadKitchen(){}
 
     //Metodos
-    /*void __init__(){
+    void __init__(){
         // Initialize data
         this->order = new Queue<Dish>();
         this->cooked = new Queue<Dish>();
@@ -243,19 +243,26 @@ public:
         this->pause = false;
 
         // Initialize Threads
-        this->chefs->insertar(new ThreadChef(1));
-        this->chefs->insertar(new ThreadChef(2));
-        this->chefs->insertar(new ThreadChef(2));
-        this->chefs->insertar(new ThreadChef(2));
-        this->chefs->insertar(new ThreadChef(3));
+        this->chefs->insertar(new ThreadChef());
+        this->chefs->insertar(new ThreadChef());
+        this->chefs->insertar(new ThreadChef());
+        this->chefs->insertar(new ThreadChef());
+        this->chefs->insertar(new ThreadChef());
+
+        // Asign type Chef
+        this->chefs->primerNodo->data->__init__(1);
+        this->chefs->primerNodo->nxt->data->__init__(2);
+        this->chefs->primerNodo->nxt->nxt->data->__init__(2);
+        this->chefs->primerNodo->nxt->nxt->nxt->data->__init__(2);
+        this->chefs->primerNodo->nxt->nxt->nxt->nxt->data->__init__(3);
 
         // Start Threads
-        this->chefs->primerNodo->data->run();
-        this->chefs->primerNodo->nxt->data->run();
-        this->chefs->primerNodo->nxt->nxt->data->run();
-        this->chefs->primerNodo->nxt->nxt->nxt->data->run();
-        this->chefs->primerNodo->nxt->nxt->nxt->nxt->data->run();
-    }*/
+        this->chefs->primerNodo->data->start();
+        this->chefs->primerNodo->nxt->data->start();
+        this->chefs->primerNodo->nxt->nxt->data->start();
+        this->chefs->primerNodo->nxt->nxt->nxt->data->start();
+        this->chefs->primerNodo->nxt->nxt->nxt->nxt->data->start();
+    }
 
     void run(){
         while (start){
@@ -267,6 +274,7 @@ public:
                     if (chef->data->free && chef->data->type == type){
                         chef->data->dish = dish->data;
                         chef->data->Unpause();
+                        cooked->queue(dish->data);
                         break;
                     }
                     chef = chef->nxt;
@@ -283,10 +291,10 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-class ThreadDishWasher : QThread{
+class ThreadDishWasher : public QThread{
     //Atributos
 public:
-    bool start;
+    bool running;
     bool pause;
     Stack<Dish>* dishes;
     int total;
@@ -296,20 +304,23 @@ public:
 
     //Metodos
     void __init__(Stack<Dish>* dishes){
-        this->start = true;
+        this->running = true;
         this->pause = false;
         this->dishes = dishes;
         this->total = 0;
     }
 
     void run() {
-        while(start){
+        while(running){
             Node<Dish>* ptr = this->dishes->peek();
+            sleep(2);
             if (ptr != nullptr){
                 sleep(ptr->data->washTime);
                 this->total++;
                 dishes->pop();
             }
+            else
+                qDebug() << "No hay platos";
             while(pause)
                 sleep(1);
         }
