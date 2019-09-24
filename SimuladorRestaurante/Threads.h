@@ -3,11 +3,11 @@
 
 #include "Structs.h"
 
-class ThreadClientGenerator : QThread{
+class ThreadClientGenerator : public QThread{
    //Atributos
 public:
    ClientQueue* clientQueue;
-   bool start;
+   bool running;
    bool pause;
    int  firstInterval;
    int  lastInterval;
@@ -22,7 +22,7 @@ public:
 
 
     void __init__(ClientQueue* clientQueue){
-       start = true;
+       running = true;
        this->clientQueue = clientQueue;
        pause = false;
    }
@@ -31,7 +31,7 @@ public:
        int size;
        int sleepTime;
        int cont = 0;
-       while (start){
+       while (running){
            size = (randomInit(4122001)%6 +1);
            sleepTime = ((randomInit(4122001)%lastInterval) + firstInterval);
            Client * client = new Client(cont,size);
@@ -120,54 +120,6 @@ public:
     }
 };
 
-
-
-/*class ThreadKitchen : QThread{
-    //Atributos
-public:
-    bool start;
-    bool pause;
-    Chef* chefs[3] = {new Chef(false), new Chef(false), new Chef(false)};
-
-    //Constructor
-    ThreadKitchen(){}
-
-    //Metodos
-    void __init__(int cant){
-        this->start = true;
-        this->pause = false;
-        switch(cant){
-        case 1:
-            this->chefs[0]->activate = true;
-            this->chefs[1]->activate = this->chefs[2]->activate = false;
-            break;
-        case 3:
-            this->chefs[0]->activate = this->chefs[1]->activate = this->chefs[2]->activate = true;
-            break;
-        default:
-            this->chefs[0]->activate = this->chefs[1]->activate = this->chefs[2]->activate = false;
-            break;
-        }
-    }
-
-    void run() {
-        //Working on it
-    }
-
-    void Pause(){
-        this->pause = true;
-    }
-
-    void Unpause(){
-        this->pause = false;
-    }
-
-    void switchChef(int id){
-        if (0 < id && id < 4)
-            this->chefs[id]->activate = !this->chefs[id]->activate;
-    }
-};*/
-
 class ThreadChef : QThread{
     //Atributos
 public:
@@ -177,9 +129,7 @@ public:
     Dish* dish;
 
     //Constructor
-    ThreadChef(int type){
-        __init__(type);
-    }
+    ThreadChef(){}
 
     //Metodos
     void __init__(int type){
@@ -222,7 +172,7 @@ public:
     ThreadKitchen(){}
 
     //Metodos
-    void __init__(){
+    /*void __init__(){
         // Initialize data
         this->order = new Queue<Dish>();
         this->cooked = new Queue<Dish>();
@@ -242,7 +192,7 @@ public:
         this->chefs->primerNodo->nxt->nxt->data->run();
         this->chefs->primerNodo->nxt->nxt->nxt->data->run();
         this->chefs->primerNodo->nxt->nxt->nxt->nxt->data->run();
-    }
+    }*/
 
     void run(){
         while (start){
