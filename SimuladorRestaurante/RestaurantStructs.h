@@ -8,26 +8,27 @@
 // Structs del restaurante
 
 struct Entrance{
+    // Campos
     ClientQueue * clientQueue;
-    ThreadClientGenerator clientGenerator;
-    ThreadClientAssigner clientAssigner;
-    ListaSimple<Table>* tables;
+    ListaSimple<Table> * tables;
 
-    // Constructor
-    Entrance(){
-        this->clientQueue = new ClientQueue();
-        clientGenerator.__init__(clientQueue);
-        clientGenerator.setIntervalo(1,10); // Deben ser preguntados en una interfaz grafica
-
+    Entrance(ClientQueue*clientQueue,ListaSimple<Table>*tables){
+        this->clientQueue = clientQueue;
+        this->tables = tables;
     }
 
     void EntranceStart(){
+        ThreadClientGenerator clientGenerator;
+        ThreadClientAssigner clientAssigner;
+        clientGenerator.setIntervalo(1,6);
+        clientGenerator.__init__(clientQueue);
+        clientAssigner.__init__(clientQueue,tables);
         clientGenerator.start();
-
-
+        clientAssigner.start();
     }
-};
 
+
+};
 
 
 #endif // RESTAURANTSTRUCT_H

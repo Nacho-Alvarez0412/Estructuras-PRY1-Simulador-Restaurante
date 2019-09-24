@@ -17,9 +17,19 @@ int main(int argc, char *argv[]){
 
    qDebug() << "Hola";
 
-   ThreadClientAssigner k;
-   k.__init__(cola, tables);
-   k.run();
+   ThreadClientGenerator k;
+   k.__init__(cola);
+   k.setIntervalo(1,5);
+   k.start();
+
+   ThreadClientAssigner k1;
+   k1.__init__(cola,tables);
+   k1.start();
+
+   ThreadClientGenerator k2;
+   k2.__init__(cola);
+   k2.setIntervalo(1,5);
+   k2.run();
 
    return 0;
 }
