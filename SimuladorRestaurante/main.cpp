@@ -26,10 +26,10 @@ int main(int argc, char *argv[]){
    k1.__init__(cola,tables);
    k1.start();
 
-   ThreadClientGenerator k2;
-   k2.__init__(cola);
-   k2.setIntervalo(1,5);
-   k2.run();
+
+   ThreadRestaurant r;
+   r.__init__();
+   r.run();
 
    return 0;
 }

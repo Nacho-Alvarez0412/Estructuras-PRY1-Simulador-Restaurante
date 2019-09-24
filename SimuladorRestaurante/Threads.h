@@ -262,6 +262,19 @@ public:
     }
 
 };
+class ThreadRestaurant : QThread{
+public:
+    //Campos
+
+    //Constructor
+    ThreadRestaurant(){}
+
+    void __init__(){}
+
+    void run(){
+        while(true){sleep(1);}
+    }
+};
 
 
 #endif // THREADS_H
