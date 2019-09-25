@@ -152,6 +152,9 @@ public:
 
             if(table->data->state == 1){
                 qDebug() << "Atendiendo mesa #" << table->data->id;
+                askOrder(table);
+                qDebug() << "Orden tomada con exito";
+                pause = true;
             }
             else
                 qDebug() << "Mesa vacia";
@@ -171,8 +174,50 @@ public:
         this->pause = false;
     }
 
-    ListaSimple<Dish>* askOrder(){
+    void askOrder(Node<Table>*table){
+        int size = table->data->client->quant;
+        int entrada = table->data->menu->Entrada;
+        int fuerte = table->data->menu->PlatoFuerte;
+        int postre = table->data->menu->Postre;
+        ListaSimple<Dish>* entradas = table->data->menu->getMenuEntrada();
+        ListaSimple<Dish>* fuertes = table->data->menu->getMenuPlatoFuerte();
+        ListaSimple<Dish>* postres = table->data->menu->getMenuPostre();
 
+        while(size != 0){
+            int prob = (randomInit(4122001)%entrada);
+            if(prob <= entrada){
+                table->data->addDish(entradas->search(randomInit(4122001)%entradas->size())->data);
+                size--;
+            }
+            else
+                size--;
+        }
+
+        size = table->data->client->quant;
+
+        while(size != 0){
+            int prob = (randomInit(4122001)%fuerte);
+            if(prob <= postre){
+                table->data->addDish(fuertes->search(randomInit(4122001)%entradas->size())->data);
+                size--;
+            }
+            else
+                size--;
+        }
+
+        size = table->data->client->quant;
+
+        while(size != 0){
+            int prob = (randomInit(4122001)%postre);
+            if(prob <= postre){
+                table->data->addDish(postres->search(randomInit(4122001)%entradas->size())->data);
+                size--;
+            }
+            else
+                size--;
+        }
+
+        return;
     }
 
 };

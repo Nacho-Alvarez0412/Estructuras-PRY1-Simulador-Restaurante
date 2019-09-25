@@ -3,23 +3,39 @@
 
 int main(int argc, char *argv[]){
    ListaSimple<Table>* tables = new ListaSimple<Table>();
-   ListaSimple<Dish>* platillos = new ListaSimple<Dish>();
    ListaSimpleIngredient* ingr = new ListaSimpleIngredient();
    ClientQueue *cola = new ClientQueue();
    Waiter * w1 = new Waiter(tables);
+
+   ListaSimple<Dish>* entradas = new ListaSimple<Dish>();
+   ListaSimple<Dish>* fuerte = new ListaSimple<Dish>();
+   ListaSimple<Dish>* postre = new ListaSimple<Dish>();
 
    ingr->insertar("Pollo");
    ingr->insertar("Salsa");
    ingr->insertar("Cebolla");
 
-   Menu* menu = new Menu(4,8,2,platillos);
+   Dish* d1 = new Dish(4,5,6,1,1,300,"Pollo a la Lena",ingr);
+   Dish* d2 = new Dish(7,1,24,4,1,3000,"Lasana",ingr);
+   Dish* d3 = new Dish(7,1,24,4,1,3000,"Sopa de mondongo",ingr);
+
+   entradas->insertar(d1);
+   fuerte->insertar(d2);
+   postre->insertar(d3);
+
+
+   Menu* menu = new Menu(35,57,10,entradas,fuerte,postre);
+
+
+
+
+
+
    Table* t1 = new Table(1,menu);
    Table* t2 = new Table(2,menu);
    Table* t3 = new Table(3,menu);
    Table* t4 = new Table(4,menu);
 
-
-   Dish* d1 = new Dish(4,5,6,1,1,300,"Pollo a la Lena",ingr);
 
    tables->insertar(t1);
    tables->insertar(t2);

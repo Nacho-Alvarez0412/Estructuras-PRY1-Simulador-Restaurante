@@ -77,7 +77,7 @@ struct ListaSimple{
     }
 
 
-    Node<T> borrar(T value){
+    Node<T>* borrar(T value){
         if (primerNodo == nullptr)
             return nullptr;
         else{
@@ -95,6 +95,26 @@ struct ListaSimple{
             }
             return nullptr;
         }
+    }
+
+    Node<T> * search(int index){
+        Node<T>* ptr = primerNodo;
+        int cont = 0;
+        while (cont != index && ptr != nullptr){
+            cont++;
+            ptr = ptr->nxt;
+        }
+        return ptr;
+    }
+
+    int size(){
+        Node<T>* temp = primerNodo;
+        int cont=0;
+        while(temp != nullptr){
+            cont++;
+            temp = temp->nxt;
+        }
+        return cont;
     }
 
 };
@@ -210,17 +230,29 @@ struct Menu{
     int Entrada;
     int PlatoFuerte;
     int Postre;
-    ListaSimple<Dish>* menu;
+    ListaSimple<Dish>* MenuEntrada;
+    ListaSimple<Dish>* MenuPlatoFuerte;
+    ListaSimple<Dish>* MenuPostre;
 
-    Menu(int entrada,int platoFuerte,int Postre,ListaSimple<Dish>*menu){
+    Menu(int entrada,int platoFuerte,int Postre,ListaSimple<Dish>*menue,ListaSimple<Dish>*menufuerte,ListaSimple<Dish>*menupostre){
         this->Entrada = entrada;
         this->PlatoFuerte = platoFuerte;
         this->Postre = Postre;
-        this->menu = menu;
+        this->MenuEntrada = menue;
+        this->MenuPlatoFuerte = menufuerte;
+        this->MenuPostre = menupostre;
     }
 
-    ListaSimple<Dish>* getMenu(){
-        return menu;
+    ListaSimple<Dish>* getMenuEntrada(){
+        return MenuEntrada;
+    }
+
+    ListaSimple<Dish>* getMenuPlatoFuerte(){
+        return MenuPlatoFuerte;
+    }
+
+    ListaSimple<Dish>* getMenuPostre(){
+        return MenuPostre;
     }
 
     void setProbEntrada(int value){
@@ -330,7 +362,7 @@ struct Table{
         this->state = 0;
         this->client = nullptr;
         this->id = id;
-        this->dishes = nullptr;
+        this->dishes = new ListaSimple<Dish>();
     }
 
     // Metodos
