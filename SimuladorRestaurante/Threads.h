@@ -319,7 +319,7 @@ public:
                     if (chef->data->free && chef->data->type == type){
                         chef->data->dish = dish->data;
                         chef->data->Unpause();
-                        cooked->queue(dish->data);
+                        cooked->queue(order->searchNDestroy(dish));
                         break;
                     }
                     chef = chef->nxt;
@@ -363,6 +363,7 @@ public:
                 sleep(ptr->data->washTime);
                 this->total++;
                 dishes->pop();
+                qDebug() << "Plato Lavado: "+ptr->data->name;
             }
             else
                 qDebug() << "No hay platos";
