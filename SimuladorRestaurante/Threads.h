@@ -134,14 +134,14 @@ public:
     bool running;
     bool pause;
     Waiter*waiter;
-    Queue<Dish>*kitchenOrders;
-    Queue<Dish>*kitchenReady;
+    Queue<Order> *kitchenOrders;
+    ListaSimple<Order>*kitchenReady;
 
     //Constructor
     ThreadWaiter(){}
 
     //Metodos
-    void __init__(Waiter*waiter,Queue<Dish>*kitchenOrders,Queue<Dish>*kitchenReady){
+    void __init__(Waiter*waiter,Queue<Order>*kitchenOrders,ListaSimple<Order>*kitchenReady){
         this->running = true;
         this->pause = false;
         this->waiter = waiter;
@@ -154,29 +154,70 @@ public:
         while(running){
             Node<Table>*table = waiter->tables->primerNodo;
 
-            if(table->data->state == 1){
-                qDebug() << "Atendiendo mesa #" << table->data->id;
-                ListaSimple<Dish> * order= askEntrance(table);
-                qDebug() << order->size();
-                qDebug() << "Orden tomada con exito";
-                qDebug() << "Entregando en cocina...";
-                if(order->size() != 0){
-                    deliverOrder(order);
-                    order->primerNodo =  nullptr;
-                    qDebug() << "Entrega exitosa";
-                }
-                else{
-                    qDebug() << "No hay platos";
-                }
-                pause = true;
-            }
-            else
-                qDebug() << "Mesa vacia";
-            table = table->nxt;
-            sleep(3);
+            while(table != nullptr){
 
-            while(pause)
-                sleep(1);
+                if(table->data->state == 0){
+                    qDebug() << "Mesa vacia";
+                    table = table->nxt;
+                    continue;
+                }
+
+                if(table->data->state == 1){
+                    qDebug() << "Atendiendo mesa #" << table->data->id;
+
+                    Order* pedido =  new Order(table->data->id);
+                    ListaSimple<Dish> *order = askEntrance(table);
+                    pedido->setDish(order);
+                    sleep(3);
+
+                    qDebug() << "Orden tomada con exito";
+
+                    if(order != nullptr){
+                        qDebug() << "Entregando en cocina...";
+
+                        qDebug() << order->size();
+                        deliverKitchen(pedido);
+                        sleep(3);
+                        order->primerNodo =  nullptr;
+
+                        qDebug() << "Entrega exitosa";
+                    }
+                    else{
+                        qDebug() << "No hay platos";
+                    }
+                    table->data->state=2;
+                    table = table->nxt;
+                    pause = true;
+                    //continue;
+                }
+
+                else if(table->data->state == 2){
+                    Node<Order> * temp = kitchenReady->primerNodo;
+                    Order * order = nullptr;
+
+                    while(temp != nullptr){
+                        if (temp ->data->id == table->data->id)
+                            order = kitchenReady->borrar(temp->data)->data;
+                        else
+                            temp = temp->nxt;
+                    }
+                    sleep(3);
+
+                    if(order != nullptr){
+                        deliverClient(order,table->data);
+                        order = nullptr;
+                    }
+
+                    table= table->nxt;
+                    continue;
+
+                }
+
+                sleep(3);
+
+                while(pause)
+                    sleep(1);
+            }
         }
     }
 
@@ -190,12 +231,16 @@ public:
     }
 
 
-    void deliverOrder(ListaSimple<Dish> * order){
-        Node<Dish> *temp = order->primerNodo;
+    void deliverKitchen(Order * order){
+        kitchenOrders->queue(order);
+    }
 
-        while(temp != nullptr){
-            kitchenOrders->queue(temp->data);
-            temp = temp->nxt;
+    void deliverClient(Order*order,Table*table){
+        Node<Dish>*plate = order->dishes->primerNodo;
+
+        while(plate != nullptr){
+            table->addDish(plate->data);
+            plate = plate->nxt;
         }
         return;
     }
@@ -209,6 +254,9 @@ public:
 
 
         while(size != 0){
+            if (entrada == 0){
+                return nullptr;
+            }
             int prob = (randomInit(4122001)%entrada);
             if(prob <= entrada){
                 order->insertar(entradas->search(randomInit(4122001)%entradas->size())->data);
@@ -228,6 +276,9 @@ public:
 
 
         while(size != 0){
+            if (fuerte == 0){
+                return nullptr;
+            }
             int prob = (randomInit(4122001)%fuerte);
             if(prob <= fuerte){
                 order->insertar(fuertes->search(randomInit(4122001)%fuertes->size())->data);
@@ -247,6 +298,9 @@ public:
 
 
         while(size != 0){
+            if (postre == 0){
+                return nullptr;
+            }
             int prob = (randomInit(4122001)%postre);
             if(prob <= postre){
                 order->insertar(postres->search(randomInit(4122001)%postres->size())->data);

@@ -351,7 +351,7 @@ struct Table{
 
     Client * client;
     int id;
-    int state; // 0 = free, 1 = occupied, 2 = reserved
+    int state; // Convertir en enum == empty,waiting,waitingOrder,eating,reserved
     ListaSimple<Dish>* dishes;
     Menu* menu;
 
@@ -398,17 +398,13 @@ struct Table{
 struct Order{
 
     //Campos
-    int task; // 1 = Pedir orden, 2 = Dejar orden en la cocina, 3 = Recoger orden, 4 = Entregar orden, 5 = facturar orden
+    int id;
     ListaSimple<Dish>* dishes;
 
     // Constructor
-    Order(){
-        this->task = 1;
-        this->dishes->primerNodo = nullptr;
-    }
-
-    void changeOrderState(int state){
-        this->task = state;
+    Order(int id){
+        this->id = id;
+        this->dishes = new ListaSimple<Dish>;
     }
 
     void setDish(ListaSimple<Dish>*dishes){
@@ -423,20 +419,10 @@ struct Waiter{
     // Campos
 
     ListaSimple<Table>* tables;
-    Queue<Order>* ordersQueue;
 
     // Constructor
     Waiter(ListaSimple<Table>* tables){
         this->tables = tables;
-        ordersQueue = new Queue<Order>;
-    }
-
-    void addOrder(Order*order){
-        ordersQueue->queue(order);
-    }
-
-    Order* delieverOrder(){
-        return ordersQueue->unqueue()->data;
     }
 
 };

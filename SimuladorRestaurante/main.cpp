@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
    postre->insertar(d6);
 
 
-   Menu* menu = new Menu(100,57,10,entradas,fuerte,postre);
+   Menu* menu = new Menu(0,57,10,entradas,fuerte,postre);
 
 
 
@@ -49,8 +49,8 @@ int main(int argc, char *argv[]){
    tables->insertar(t3);
    tables->insertar(t4);
 
-    Queue<Dish>* ordersQueue = new Queue<Dish>();
-    Queue<Dish>* readysQueue = new Queue<Dish>();
+    Queue<Order>* ordersQueue = new Queue<Order>();
+    ListaSimple<Order>* readysQueue = new ListaSimple<Order>();
 
    ThreadWaiter w;
    w.__init__(w1,ordersQueue,readysQueue);
