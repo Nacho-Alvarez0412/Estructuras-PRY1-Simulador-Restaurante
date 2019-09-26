@@ -134,15 +134,19 @@ public:
     bool running;
     bool pause;
     Waiter*waiter;
+    Queue<Dish>*kitchenOrders;
+    Queue<Dish>*kitchenReady;
 
     //Constructor
     ThreadWaiter(){}
 
     //Metodos
-    void __init__(Waiter*waiter){
+    void __init__(Waiter*waiter,Queue<Dish>*kitchenOrders,Queue<Dish>*kitchenReady){
         this->running = true;
         this->pause = false;
         this->waiter = waiter;
+        this->kitchenOrders = kitchenOrders;
+        this->kitchenReady = kitchenReady;
 
     }
 
@@ -152,8 +156,18 @@ public:
 
             if(table->data->state == 1){
                 qDebug() << "Atendiendo mesa #" << table->data->id;
-                askOrder(table);
+                ListaSimple<Dish> * order= askEntrance(table);
+                qDebug() << order->size();
                 qDebug() << "Orden tomada con exito";
+                qDebug() << "Entregando en cocina...";
+                if(order->size() != 0){
+                    deliverOrder(order);
+                    order->primerNodo =  nullptr;
+                    qDebug() << "Entrega exitosa";
+                }
+                else{
+                    qDebug() << "No hay platos";
+                }
                 pause = true;
             }
             else
@@ -170,54 +184,78 @@ public:
         this->pause = true;
     }
 
+
     void Unpause(){
         this->pause = false;
     }
 
-    void askOrder(Node<Table>*table){
+
+    void deliverOrder(ListaSimple<Dish> * order){
+        Node<Dish> *temp = order->primerNodo;
+
+        while(temp != nullptr){
+            kitchenOrders->queue(temp->data);
+            temp = temp->nxt;
+        }
+        return;
+    }
+
+
+    ListaSimple<Dish> * askEntrance(Node<Table>*table){
         int size = table->data->client->quant;
         int entrada = table->data->menu->Entrada;
-        int fuerte = table->data->menu->PlatoFuerte;
-        int postre = table->data->menu->Postre;
         ListaSimple<Dish>* entradas = table->data->menu->getMenuEntrada();
-        ListaSimple<Dish>* fuertes = table->data->menu->getMenuPlatoFuerte();
-        ListaSimple<Dish>* postres = table->data->menu->getMenuPostre();
+        ListaSimple<Dish> * order = new ListaSimple<Dish>();
+
 
         while(size != 0){
             int prob = (randomInit(4122001)%entrada);
             if(prob <= entrada){
-                table->data->addDish(entradas->search(randomInit(4122001)%entradas->size())->data);
+                order->insertar(entradas->search(randomInit(4122001)%entradas->size())->data);
                 size--;
             }
             else
                 size--;
         }
+        return order;
+    }
 
-        size = table->data->client->quant;
+     ListaSimple<Dish> * askMeal(Node<Table>*table){
+        int size = table->data->client->quant;
+        int fuerte = table->data->menu->PlatoFuerte;
+        ListaSimple<Dish>* fuertes = table->data->menu->getMenuPlatoFuerte();
+        ListaSimple<Dish> * order = new ListaSimple<Dish>();
+
 
         while(size != 0){
             int prob = (randomInit(4122001)%fuerte);
-            if(prob <= postre){
-                table->data->addDish(fuertes->search(randomInit(4122001)%entradas->size())->data);
+            if(prob <= fuerte){
+                order->insertar(fuertes->search(randomInit(4122001)%fuertes->size())->data);
                 size--;
             }
             else
                 size--;
         }
+        return order;
+    }
 
-        size = table->data->client->quant;
+     ListaSimple<Dish> * askDessert(Node<Table>*table){
+        int size = table->data->client->quant;
+        int postre = table->data->menu->Postre;
+        ListaSimple<Dish>* postres = table->data->menu->getMenuPostre();
+        ListaSimple<Dish> * order = new ListaSimple<Dish>();
+
 
         while(size != 0){
             int prob = (randomInit(4122001)%postre);
             if(prob <= postre){
-                table->data->addDish(postres->search(randomInit(4122001)%entradas->size())->data);
+                order->insertar(postres->search(randomInit(4122001)%postres->size())->data);
                 size--;
             }
             else
                 size--;
         }
-
-        return;
+        return order;
     }
 
 };
@@ -319,7 +357,7 @@ public:
                     if (chef->data->free && chef->data->type == type){
                         chef->data->dish = dish->data;
                         chef->data->Unpause();
-                        cooked->queue(order->searchNDestroy(dish));
+                        cooked->queue(dish->data);
                         break;
                     }
                     chef = chef->nxt;
@@ -363,7 +401,6 @@ public:
                 sleep(ptr->data->washTime);
                 this->total++;
                 dishes->pop();
-                qDebug() << "Plato Lavado: "+ptr->data->name;
             }
             else
                 qDebug() << "No hay platos";

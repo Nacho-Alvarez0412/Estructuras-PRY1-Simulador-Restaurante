@@ -19,12 +19,19 @@ int main(int argc, char *argv[]){
    Dish* d2 = new Dish(7,1,24,4,1,3000,"Lasana",ingr);
    Dish* d3 = new Dish(7,1,24,4,1,3000,"Sopa de mondongo",ingr);
 
+   Dish* d4 = new Dish(4,5,6,1,1,300,"Pollo a la Lena",ingr);
+   Dish* d5 = new Dish(7,1,24,4,1,3000,"Lasana",ingr);
+   Dish* d6 = new Dish(7,1,24,4,1,3000,"Sopa de mondongo",ingr);
+
    entradas->insertar(d1);
    fuerte->insertar(d2);
    postre->insertar(d3);
+   entradas->insertar(d4);
+   fuerte->insertar(d5);
+   postre->insertar(d6);
 
 
-   Menu* menu = new Menu(35,57,10,entradas,fuerte,postre);
+   Menu* menu = new Menu(100,57,10,entradas,fuerte,postre);
 
 
 
@@ -42,10 +49,11 @@ int main(int argc, char *argv[]){
    tables->insertar(t3);
    tables->insertar(t4);
 
-
+    Queue<Dish>* ordersQueue = new Queue<Dish>();
+    Queue<Dish>* readysQueue = new Queue<Dish>();
 
    ThreadWaiter w;
-   w.__init__(w1);
+   w.__init__(w1,ordersQueue,readysQueue);
    w.start();
 
    qDebug() << "Hola";

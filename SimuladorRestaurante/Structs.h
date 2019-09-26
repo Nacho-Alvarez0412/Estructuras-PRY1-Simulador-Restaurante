@@ -50,28 +50,6 @@ struct Queue{
             return nullptr;
         return borrado;
     }
-
-    T* searchNDestroy(Node<T>* node){
-        Node<T>* ptr = first;
-        if (ptr != nullptr){
-            if (ptr == node){
-                first = last = nullptr;
-                return ptr->data;
-            } else {
-                while (ptr->nxt != nullptr){
-                    if(ptr->nxt == node){
-                        Node<T>* deleted = ptr->nxt;
-                        ptr->nxt = deleted->nxt;
-                        deleted->nxt = nullptr;
-                        if (deleted == last)
-                            last = ptr;
-                        return ptr->data;
-                    }
-                }
-            }
-        }
-        return nullptr;
-    }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +77,7 @@ struct ListaSimple{
     }
 
 
-    Node<T>* borrar(T value){
+    Node<T>* borrar(T* value){
         if (primerNodo == nullptr)
             return nullptr;
         else{
