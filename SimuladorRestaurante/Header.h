@@ -68,4 +68,11 @@ static int randomInit(int seed)
     return dist(*QRandomGenerator::global());
 }
 
+enum TableState{
+    available,reserved,eating,waitingWaiter,waitingEntrance,waitingMeal,waitingDessert
+};
+
+enum DishType{
+    entrance,meal,dessert
+};
 #endif // SIMULADOR_H

@@ -134,14 +134,14 @@ public:
     bool running;
     bool pause;
     Waiter*waiter;
-    Queue<Order> *kitchenOrders;
+    ListaSimple<Order> *kitchenOrders;
     ListaSimple<Order>*kitchenReady;
 
     //Constructor
     ThreadWaiter(){}
 
     //Metodos
-    void __init__(Waiter*waiter,Queue<Order>*kitchenOrders,ListaSimple<Order>*kitchenReady){
+    void __init__(Waiter*waiter,ListaSimple<Order>*kitchenOrders,ListaSimple<Order>*kitchenReady){
         this->running = true;
         this->pause = false;
         this->waiter = waiter;
@@ -156,16 +156,17 @@ public:
 
             while(table != nullptr){
 
-                if(table->data->state == 0){
+                if(table->data->state == available){
                     qDebug() << "Mesa vacia";
                     table = table->nxt;
+                    sleep(3);
                     continue;
                 }
 
-                if(table->data->state == 1){
+                if(table->data->state == waitingWaiter){
                     qDebug() << "Atendiendo mesa #" << table->data->id;
 
-                    Order* pedido =  new Order(table->data->id);
+                    Order* pedido =  new Order(table->data->id,entrance);
                     ListaSimple<Dish> *order = askEntrance(table);
                     pedido->setDish(order);
                     sleep(3);
@@ -176,6 +177,7 @@ public:
                         qDebug() << "Entregando en cocina...";
 
                         qDebug() << order->size();
+                        table->data->state=waitingEntrance;
                         deliverKitchen(pedido);
                         sleep(3);
                         order->primerNodo =  nullptr;
@@ -183,21 +185,23 @@ public:
                         qDebug() << "Entrega exitosa";
                     }
                     else{
+                        table->data->state=waitingMeal;
                         qDebug() << "No hay platos";
                     }
-                    table->data->state=2;
                     table = table->nxt;
-                    pause = true;
                     //continue;
                 }
 
-                else if(table->data->state == 2){
+                else if(table->data->state == waitingEntrance){
                     Node<Order> * temp = kitchenReady->primerNodo;
                     Order * order = nullptr;
 
                     while(temp != nullptr){
-                        if (temp ->data->id == table->data->id)
-                            order = kitchenReady->borrar(temp->data)->data;
+                        qDebug() << "Recogiendo pedido";
+                        if (temp ->data->id == table->data->id){
+                            order = kitchenReady->primerNodo->data;
+                            break;
+                        }
                         else
                             temp = temp->nxt;
                     }
@@ -206,6 +210,7 @@ public:
                     if(order != nullptr){
                         deliverClient(order,table->data);
                         order = nullptr;
+                        qDebug()<<"Entregada con exito";
                     }
 
                     table= table->nxt;
@@ -232,7 +237,7 @@ public:
 
 
     void deliverKitchen(Order * order){
-        kitchenOrders->queue(order);
+        kitchenOrders->insertar(order);
     }
 
     void deliverClient(Order*order,Table*table){
@@ -313,119 +318,6 @@ public:
     }
 
 };
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-class ThreadChef : public QThread{
-    //Atributos
-public:
-    bool running;
-    bool free; //pause
-    int type;
-    Dish* dish;
-
-    //Constructor
-    ThreadChef(){}
-
-    //Metodos
-    void __init__(int type){
-        this->running = true;
-        this->free = true;
-        this->dish = nullptr;
-        this->type = type;
-    }
-
-    void run(){
-        while (running){
-            while (free)
-                sleep(1);
-            sleep(dish->cookTime);
-            dish->id++;
-            free = true;
-        }
-    }
-
-    void Pause(){
-        this->free = true;
-    }
-
-    void Unpause(){
-        this->free = false;
-    }
-
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-class ThreadKitchen : public QThread{
-    //Atributos
-public:
-    Queue<Dish>* order;
-    Queue<Dish>* cooked;
-    bool start;
-    bool pause;
-    ListaSimple<ThreadChef>* chefs;
-
-    //Constructor
-    ThreadKitchen(){}
-
-    //Metodos
-    void __init__(){
-        // Initialize data
-        this->order = new Queue<Dish>();
-        this->cooked = new Queue<Dish>();
-        this->start = true;
-        this->pause = false;
-
-        // Initialize Threads
-        this->chefs->insertar(new ThreadChef());
-        this->chefs->insertar(new ThreadChef());
-        this->chefs->insertar(new ThreadChef());
-        this->chefs->insertar(new ThreadChef());
-        this->chefs->insertar(new ThreadChef());
-
-        // Asign type Chef
-        this->chefs->primerNodo->data->__init__(1);
-        this->chefs->primerNodo->nxt->data->__init__(2);
-        this->chefs->primerNodo->nxt->nxt->data->__init__(2);
-        this->chefs->primerNodo->nxt->nxt->nxt->data->__init__(2);
-        this->chefs->primerNodo->nxt->nxt->nxt->nxt->data->__init__(3);
-
-        // Start Threads
-        this->chefs->primerNodo->data->start();
-        this->chefs->primerNodo->nxt->data->start();
-        this->chefs->primerNodo->nxt->nxt->data->start();
-        this->chefs->primerNodo->nxt->nxt->nxt->data->start();
-        this->chefs->primerNodo->nxt->nxt->nxt->nxt->data->start();
-    }
-
-    void run(){
-        while (start){
-            Node<Dish>* dish = order->first;
-            while (dish != nullptr){
-                Node<ThreadChef>* chef = chefs->primerNodo;
-                int type = dish->data->id;
-                while(chef != nullptr){
-                    if (chef->data->free && chef->data->type == type){
-                        chef->data->dish = dish->data;
-                        chef->data->Unpause();
-                        cooked->queue(dish->data);
-                        break;
-                    }
-                    chef = chef->nxt;
-                }
-                dish = dish->nxt;
-            }
-            while (pause)
-                sleep(1);
-        }
-    }
-
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 class ThreadDishWasher : public QThread{

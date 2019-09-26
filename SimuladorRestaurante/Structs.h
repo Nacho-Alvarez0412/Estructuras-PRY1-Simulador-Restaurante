@@ -351,7 +351,7 @@ struct Table{
 
     Client * client;
     int id;
-    int state; // Convertir en enum == empty,waiting,waitingOrder,eating,reserved
+    TableState state; // Convertir en enum == empty,waiting,waitingOrder,eating,reserved
     ListaSimple<Dish>* dishes;
     Menu* menu;
 
@@ -359,7 +359,7 @@ struct Table{
 
     Table(int id,Menu*menu){
         this->menu = menu;
-        this->state = 0;
+        this->state = available;
         this->client = nullptr;
         this->id = id;
         this->dishes = new ListaSimple<Dish>();
@@ -368,12 +368,12 @@ struct Table{
     // Metodos
 
     void setClient(Client*client){
-        this->state = 1;
+        this->state = waitingWaiter;
         this->client = client;
     }
 
     void setReserve(){
-        this->state = 2;
+        this->state = reserved;
     }
 
 
@@ -386,7 +386,7 @@ struct Table{
     }
 
     void setFree(){
-        this->state = 0;
+        this->state = available;
         this->client = nullptr;
         this->dishes = nullptr; // Puede llenar la memoria de basura
     }
@@ -399,11 +399,13 @@ struct Order{
 
     //Campos
     int id;
+    DishType type;
     ListaSimple<Dish>* dishes;
 
     // Constructor
-    Order(int id){
+    Order(int id,DishType type){
         this->id = id;
+        this->type = type;
         this->dishes = new ListaSimple<Dish>;
     }
 
