@@ -70,7 +70,7 @@ static int randomInit(int seed)
 }
 
 enum TableState{
-    available,reserved,eating,waitingWaiter,waitingEntrance,waitingMeal,waitingDessert
+    available,reserved,eating,waitingWaiter,waitingEntrance,waitingMeal,waitingDessert,done
 };
 
 enum DishType{

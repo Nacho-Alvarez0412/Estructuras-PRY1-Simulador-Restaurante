@@ -15,13 +15,13 @@ int main(int argc, char *argv[]){
    ingr->insertar("Salsa");
    ingr->insertar("Cebolla");
 
-   Dish* d1 = new Dish(4,5,6,1,1,300,"Pollo a la Lena",ingr);
-   Dish* d2 = new Dish(7,1,24,4,1,3000,"Lasana",ingr);
-   Dish* d3 = new Dish(7,1,24,4,1,3000,"Sopa de mondongo",ingr);
+   Dish* d1 = new Dish(4,5,6,1,entrance,300,"Pollo a la Lena",ingr);
+   Dish* d2 = new Dish(7,1,24,4,meal,3000,"Lasana",ingr);
+   Dish* d3 = new Dish(7,1,24,4,dessert,3000,"Sopa de mondongo",ingr);
 
-   Dish* d4 = new Dish(4,5,6,1,1,300,"Pollo a la Lena",ingr);
-   Dish* d5 = new Dish(7,1,24,4,1,3000,"Lasana",ingr);
-   Dish* d6 = new Dish(7,1,24,4,1,3000,"Sopa de mondongo",ingr);
+   Dish* d4 = new Dish(4,5,6,1,entrance,300,"Pollo a la Lena",ingr);
+   Dish* d5 = new Dish(7,1,24,4,meal,3000,"Lasana",ingr);
+   Dish* d6 = new Dish(7,1,24,4,dessert,3000,"Sopa de mondongo",ingr);
 
    entradas->insertar(d1);
    fuerte->insertar(d2);
@@ -53,7 +53,13 @@ int main(int argc, char *argv[]){
     ListaSimple<Order>* readysQueue = new ListaSimple<Order>();
 
     Order*o1 = new Order(1,entrance);
+    Order*o2 = new Order(1,meal);
+    Order*o3 = new Order(1,dessert);
+
     readysQueue->insertar(o1);
+    readysQueue->insertar(o2);
+    readysQueue->insertar(o3);
+
 
    ThreadWaiter w;
    w.__init__(w1,ordersQueue,readysQueue);

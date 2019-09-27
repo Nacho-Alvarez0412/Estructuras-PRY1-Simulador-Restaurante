@@ -172,7 +172,9 @@ public:
                         pedido =  new Order(table->data->id,entrance);
                         order = askEntrance(table);
                         pedido->setDish(order);
-                         table->data->state=waitingEntrance;
+                        table->data->state=waitingEntrance;
+
+                         qDebug() << "Pidio entrada";
                         sleep(3);
                     }
                     else if(table->data->course == meal){
@@ -180,6 +182,8 @@ public:
                         order = askMeal(table);
                         pedido->setDish(order);
                         table->data->state=waitingMeal;
+
+                        qDebug() << "Pidio plato fuerte";
                         sleep(3);
                     }
                     else if(table->data->course == dessert){
@@ -187,6 +191,8 @@ public:
                         order = askDessert(table);
                         pedido->setDish(order);
                          table->data->state=waitingDessert;
+
+                         qDebug() << "Pidio postre";
                         sleep(3);
                     }
                     qDebug() << "Orden tomada con exito";
@@ -201,6 +207,11 @@ public:
 
                         else if(table->data->state==waitingMeal){
                             table->data->state = waitingWaiter;
+                            table->data->course = dessert;
+                        }
+
+                        else if(table->data->state==waitingDessert){
+                            table->data->state = done;
                             table->data->course = dessert;
                         }
 
@@ -226,11 +237,15 @@ public:
                     qDebug() << "Verificando pedido";
                     order = retrieveOrder(kitchenReady,table->data);
 
-                    qDebug() << "Orden lista!";
+
                     sleep(3);
 
                     if(order != nullptr){
+                        qDebug() << "Orden lista!";
                         deliverClient(order,table->data);
+                        table->data->state = eating;
+                        table->data->state = waitingWaiter;
+                        table->data->course = meal;
                         qDebug()<<"Entregada con exito";
                     }
                     else
@@ -239,6 +254,52 @@ public:
                     table= table->nxt;
                     continue;
 
+                }
+
+                else if(table->data->state == waitingMeal){
+                    Order * order = nullptr;
+
+                    qDebug() << "Verificando pedido";
+                    order = retrieveOrder(kitchenReady,table->data);
+
+                    qDebug() << "Orden lista!";
+                    sleep(3);
+
+                    if(order != nullptr){
+                        deliverClient(order,table->data);
+                        table->data->state = eating;
+                        table->data->state = waitingWaiter;
+
+                        table->data->course = dessert;
+
+                        qDebug()<<"Entregada con exito";
+                    }
+                    else
+                        qDebug() <<"No esta listo aun";
+
+                    table= table->nxt;
+                    continue;
+                }
+
+                else if(table->data->state == waitingDessert){
+                    Order * order = nullptr;
+
+                    qDebug() << "Verificando pedido";
+                    order = retrieveOrder(kitchenReady,table->data);
+
+                    qDebug() << "Orden lista!";
+                    sleep(3);
+
+                    if(order != nullptr){
+                        deliverClient(order,table->data);
+                        table->data->state = eating;
+                        qDebug("Terminaron de comer");
+                    }
+                    else
+                        qDebug() <<"No esta listo aun";
+
+                    table= table->nxt;
+                    continue;
                 }
 
                 sleep(3);
@@ -354,6 +415,8 @@ public:
 
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class ThreadChef : public QThread{
 public:
@@ -399,6 +462,9 @@ public:
         }
     }
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class ThreadDishWasher : public QThread{
     //Atributos
@@ -452,7 +518,7 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-class ThreadRestaurant : QThread{
+class ThreadRestaurant : public QThread{
 public:
     //Campos
 
@@ -464,6 +530,54 @@ public:
     void run(){
         while(true){sleep(1);}
     }
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class ThreadClient : public QThread{
+public:
+    //Campos
+    Table* table;
+    bool running,pause;
+
+
+    //Constructor
+    ThreadClient(){}
+
+    void __init__(Table* table){
+        this->table = table;
+    }
+
+    void run(){
+        while(running){
+            if(table->state == eating){
+                int eatingTime;
+                if(table->course == entrance){
+                     eatingTime = obtainEntranceTime();
+                }
+            }
+        }
+    }
+
+    void Pause(){
+        this->pause = true;
+    }
+
+    void Unpause(){
+        this->pause = false;
+    }
+
+    int obtainEntranceTime(){
+        ListaSimple<Dish>* orders = table->getDishes();
+        Node<Dish>* temp = orders->primerNodo;
+
+        while(temp != nullptr){
+            if(temp->data->type == entrance){
+
+            }
+        }
+    }
+
 };
 
 

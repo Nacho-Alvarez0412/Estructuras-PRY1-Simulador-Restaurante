@@ -455,12 +455,12 @@ struct Dish{
     int eatTime;
     int washTime;
     int id;
-    int type;   // 1 = ensaladas , 2 = plato fuerte, 3 = reposteria
+    DishType type;
     int price;
 
     // Constructor
 
-    Dish(int cookTime,int eatTime,int washTime,int id,int type,int price,QString name, ListaSimpleIngredient*ingredients){
+    Dish(int cookTime,int eatTime,int washTime,int id,DishType type,int price,QString name, ListaSimpleIngredient*ingredients){
         this->id = id;
         this->name =name;
         this->type = type;
