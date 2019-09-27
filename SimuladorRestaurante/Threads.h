@@ -156,8 +156,8 @@ public:
 
             while(table != nullptr){
 
-                if(table->data->state == available){
-                    qDebug() << "Mesa vacia";
+                if(table->data->state == available || table->data->state == eating || table->data->state == reserved){
+                    qDebug() << "Mesa no necesita atencion";
                     table = table->nxt;
                     sleep(3);
                     continue;
@@ -165,53 +165,76 @@ public:
 
                 if(table->data->state == waitingWaiter){
                     qDebug() << "Atendiendo mesa #" << table->data->id;
+                    Order* pedido = nullptr;
+                    ListaSimple<Dish> *order;
 
-                    Order* pedido =  new Order(table->data->id,entrance);
-                    ListaSimple<Dish> *order = askEntrance(table);
-                    pedido->setDish(order);
-                    sleep(3);
-
+                    if(table->data->course == entrance){
+                        pedido =  new Order(table->data->id,entrance);
+                        order = askEntrance(table);
+                        pedido->setDish(order);
+                         table->data->state=waitingEntrance;
+                        sleep(3);
+                    }
+                    else if(table->data->course == meal){
+                        pedido =  new Order(table->data->id,meal);
+                        order = askMeal(table);
+                        pedido->setDish(order);
+                        table->data->state=waitingMeal;
+                        sleep(3);
+                    }
+                    else if(table->data->course == dessert){
+                        pedido =  new Order(table->data->id,dessert);
+                        order = askDessert(table);
+                        pedido->setDish(order);
+                         table->data->state=waitingDessert;
+                        sleep(3);
+                    }
                     qDebug() << "Orden tomada con exito";
 
-                    if(order != nullptr){
-                        qDebug() << "Entregando en cocina...";
+                    if(order == nullptr){
+                        qDebug() << "No hay platos";
 
+                        if(table->data->state==waitingEntrance){
+                            table->data->state = waitingWaiter;
+                            table->data->course = meal;
+                        }
+
+                        else if(table->data->state==waitingMeal){
+                            table->data->state = waitingWaiter;
+                            table->data->course = dessert;
+                        }
+
+                    }
+                    else{
+                        qDebug() << "Entregando en cocina...";
                         qDebug() << order->size();
-                        table->data->state=waitingEntrance;
+
                         deliverKitchen(pedido);
                         sleep(3);
                         order->primerNodo =  nullptr;
 
                         qDebug() << "Entrega exitosa";
                     }
-                    else{
-                        table->data->state=waitingMeal;
-                        qDebug() << "No hay platos";
-                    }
+
                     table = table->nxt;
-                    //continue;
+                    continue;
                 }
 
                 else if(table->data->state == waitingEntrance){
-                    Node<Order> * temp = kitchenReady->primerNodo;
                     Order * order = nullptr;
 
-                    while(temp != nullptr){
-                        qDebug() << "Recogiendo pedido";
-                        if (temp ->data->id == table->data->id){
-                            order = kitchenReady->primerNodo->data;
-                            break;
-                        }
-                        else
-                            temp = temp->nxt;
-                    }
+                    qDebug() << "Verificando pedido";
+                    order = retrieveOrder(kitchenReady,table->data);
+
+                    qDebug() << "Orden lista!";
                     sleep(3);
 
                     if(order != nullptr){
                         deliverClient(order,table->data);
-                        order = nullptr;
                         qDebug()<<"Entregada con exito";
                     }
+                    else
+                        qDebug() <<"No esta listo aun";
 
                     table= table->nxt;
                     continue;
@@ -224,6 +247,18 @@ public:
                     sleep(1);
             }
         }
+    }
+
+    Order* retrieveOrder(ListaSimple<Order>*ready,Table* table){
+        Node<Order>*temp = ready->primerNodo;
+
+        while(temp != nullptr){
+            if (temp->data->id == table->id)
+                return (ready->searchAndDestroy(temp->data))->data;
+            else
+                temp = temp->nxt;
+        }
+        return nullptr;
     }
 
     void Pause(){

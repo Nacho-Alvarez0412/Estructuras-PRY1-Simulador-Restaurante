@@ -75,4 +75,5 @@ enum TableState{
 enum DishType{
     entrance,meal,dessert
 };
+
 #endif // SIMULADOR_H

@@ -76,26 +76,40 @@ struct ListaSimple{
          temp->nxt = new Node<T>(data);
     }
 
-
-    Node<T>* borrar(T* value){
+    Node<T>* searchByData(T* data){
         if (primerNodo == nullptr)
             return nullptr;
-        else{
-            Node<T>* temp = primerNodo;
-            while(temp->nxt != nullptr){
-                if (temp->nxt->data == value){
-                    Node<T> * borrado = temp->nxt;
-                    temp->nxt = borrado->nxt;
-                    borrado->nxt = nullptr;
-                    return borrado;
-                }
-                else
-                    temp = temp->nxt;
-
+        else {
+            Node<T>* ptr = primerNodo;
+            while(ptr != nullptr){
+                if (ptr->data == data)
+                    break;
+                ptr = ptr->nxt;
             }
-            return nullptr;
+            return ptr;
         }
     }
+
+    Node<T>* searchAndDestroy(T* value){
+        Node<T>* ptr = primerNodo;
+        if (searchByData(value) != nullptr){
+            if (ptr->data == value){
+                primerNodo = ptr->nxt;
+                ptr->nxt = nullptr;
+            } else {
+                while (ptr->nxt->data != value)
+                    ptr = ptr->nxt;
+                Node<T>* deleted = ptr->nxt;
+                ptr->nxt = deleted->nxt;
+                deleted->nxt = nullptr;
+                ptr = deleted;
+            }
+            return ptr;
+        }
+        return nullptr;
+    }
+
+
 
     Node<T> * search(int index){
         Node<T>* ptr = primerNodo;
@@ -351,6 +365,7 @@ struct Table{
 
     Client * client;
     int id;
+    DishType course;
     TableState state; // Convertir en enum == empty,waiting,waitingOrder,eating,reserved
     ListaSimple<Dish>* dishes;
     Menu* menu;
@@ -360,6 +375,7 @@ struct Table{
     Table(int id,Menu*menu){
         this->menu = menu;
         this->state = available;
+        this->course = entrance;
         this->client = nullptr;
         this->id = id;
         this->dishes = new ListaSimple<Dish>();
