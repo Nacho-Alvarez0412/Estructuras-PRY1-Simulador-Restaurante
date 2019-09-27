@@ -7,6 +7,7 @@
 #include <QRandomGenerator>
 #include <QDebug>
 #include <QBEInteger>
+#include <QMutex>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Simulador; }

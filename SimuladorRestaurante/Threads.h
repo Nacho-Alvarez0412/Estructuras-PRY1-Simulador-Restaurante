@@ -355,6 +355,51 @@ public:
 };
 
 
+class ThreadChef : public QThread{
+public:
+    Chef* chef;
+    bool running;
+    bool pause;
+    KitchenOrders* orders;
+    KitchenOrders* cooked;
+
+    ThreadChef(){}
+
+    void __init__(Chef* chef, KitchenOrders* orders, KitchenOrders* cooked){
+        this->running = true;
+        this->pause = false;
+        this->chef = chef;
+        this->orders = orders;
+        this->cooked = cooked;
+    }
+
+    void run(){
+        while (running){
+            Node<Order>* order = orders->list->primerNodo;
+            if (order != nullptr){
+                if(order->data->type == chef->type){
+                    orders->mutex.lock();
+                    Order * nOrder = orders->errase(order->data);
+                    orders->mutex.unlock();
+                    Node<Dish>* dish = nOrder->dishes->primerNodo;
+                    while (dish != nullptr){
+                        sleep(dish->data->cookTime);
+                        qDebug() << "Plato cocinado: " + dish->data->name;
+                        dish = dish->nxt;
+                    }
+                    cooked->mutex.lock();
+                    cooked->append(nOrder);
+                    cooked->mutex.unlock();
+                }
+                //order = order->nxt;
+            }
+            while (pause)
+                qDebug() << "while2";
+                sleep(1);
+        }
+    }
+};
+
 class ThreadDishWasher : public QThread{
     //Atributos
 public:

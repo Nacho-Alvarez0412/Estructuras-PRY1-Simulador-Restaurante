@@ -553,16 +553,34 @@ struct Cashier{
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+struct KitchenOrders{
+    QMutex mutex;
+    ListaSimple<Order>* list;
+
+    KitchenOrders(){
+        this->list = new ListaSimple<Order>;
+    }
+
+    void append(Order* order){
+        list->insertar(order);
+    }
+
+    Order* errase(Order* order){
+        return list->searchAndDestroy(order)->data;
+    }
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct Chef{
     //Campos
     Dish* dish;
-    bool activate;
+    DishType type;
 
     //Constructor
-    Chef(bool activate){
+    Chef(DishType type){
         this->dish = nullptr;
-        this->activate = activate;
+        this->type = type;
     }
 };
 
