@@ -94,6 +94,18 @@ int main(int argc, char *argv[]){
    c1.__init__(t1);
    c1.start();
 
+   ThreadClient c2;
+   c2.__init__(t2);
+   c2.start();
+
+   ThreadClient c3;
+   c3.__init__(t3);
+   c3.start();
+
+   ThreadClient c4;
+   c4.__init__(t4);
+   c4.start();
+
 
    ThreadRestaurant r;
    r.__init__();

@@ -161,12 +161,12 @@ public:
             while(table != nullptr){
 
                 if(table->data->state == done){
-                    qDebug("Terminaron de comer");
+                    qDebug() << "La mesa # "<< table->data->id<<" Terminaron de comer";
                     table->data->setFree();
                 }
 
                 if(table->data->state == available || table->data->state == eating || table->data->state == reserved){
-                    qDebug() << "Mesa no necesita atencion";
+                    qDebug() << "La mesa # "<< table->data->id<< " no necesita atencion";
                     table = table->nxt;
                     sleep(3);
                     continue;
@@ -210,9 +210,12 @@ public:
                     if(order->size() == 0){
                         qDebug() << "No hay platos";
 
+                        table->data->mutex.lock();
+
                         if(table->data->state==waitingEntrance){
                             table->data->state = waitingWaiter;
                             table->data->course = meal;
+                            table->data->mutex.unlock();
                             table= table->nxt;
                             continue;
                         }
@@ -220,13 +223,16 @@ public:
                         else if(table->data->state==waitingMeal){
                             table->data->state = waitingWaiter;
                             table->data->course = dessert;
+                            table->data->mutex.unlock();
                             table= table->nxt;
                             continue;
                         }
 
                         else if(table->data->state==waitingDessert){
-                            table->data->state = done;
+                            table->data->state = done;                            
                             table->data->setFree();
+                            table->data->mutex.unlock();
+                            table = table->nxt;
                             continue;
                         }
 
@@ -249,7 +255,7 @@ public:
                 else if(table->data->state == waitingEntrance){
                     Order * order = nullptr;
 
-                    qDebug() << "Verificando pedido";
+                    qDebug() << "Verificando pedido de mesa " << table->data->id;
 
                     kitchenReady->mutex.lock();
                     order = retrieveOrder(kitchenReady,table->data);
@@ -276,7 +282,7 @@ public:
               else if(table->data->state == waitingMeal){
                     Order * order = nullptr;
 
-                    qDebug() << "Verificando pedido";
+                    qDebug() << "Verificando pedido de mesa " << table->data->id;
 
                     kitchenReady->mutex.lock();
                     order = retrieveOrder(kitchenReady,table->data);
@@ -304,7 +310,7 @@ public:
                 else if(table->data->state == waitingDessert){
                     Order * order = nullptr;
 
-                    qDebug() << "Verificando pedido";
+                    qDebug() << "Verificando pedido de mesa " << table->data->id;
 
                     kitchenReady->mutex.lock();
                     order = retrieveOrder(kitchenReady,table->data);
@@ -582,6 +588,7 @@ public:
                 int eatingTime;
                 if(table->course == entrance){
                      eatingTime = obtainTime(entrance);
+                     qDebug() <<table->id;
                      qDebug() <<"Tardare "<< eatingTime<<" segundos";
                      qDebug() << "comiendo...";
                      sleep(eatingTime);
@@ -594,6 +601,7 @@ public:
                 }
                 else if(table->course == meal){
                     eatingTime = obtainTime(meal);
+                    qDebug() <<table->id;
                     qDebug() <<"Tardare "<< eatingTime<<" segundos";
                     qDebug() << "comiendo...";
                     sleep(eatingTime);
@@ -607,6 +615,7 @@ public:
                 }
                 else{
                     eatingTime = obtainTime(dessert);
+                    qDebug() <<table->id;
                     qDebug() <<"Tardare "<< eatingTime<<" segundos";
                     qDebug() << "comiendo...";
                     sleep(eatingTime);
@@ -618,8 +627,8 @@ public:
                     table->mutex.unlock();
                 }
             }
-            else
-                sleep(2);
+            while(table->state!=eating)
+                sleep(1);
         }
     }
 
