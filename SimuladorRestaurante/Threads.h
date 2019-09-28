@@ -6,7 +6,7 @@
 class ThreadClientGenerator : public QThread{
    //Atributos
 public:
-   ClientQueue* clientQueue;
+   Queue<Client>* clientQueue;
    bool running;
    bool pause;
    int  firstInterval;
@@ -21,7 +21,7 @@ public:
    }
 
 
-    void __init__(ClientQueue* clientQueue){
+    void __init__(Queue<Client>* clientQueue){
        running = true;
        this->clientQueue = clientQueue;
        pause = false;
@@ -32,13 +32,17 @@ public:
        int sleepTime;
        int cont = 1;
        while (running){
+
            size = (randomInit(4122001)%6 +1);
            sleepTime = ((randomInit(4122001)%lastInterval) + firstInterval);
            Client * client = new Client(cont,size);
-           clientQueue->queued(client);
+           clientQueue->mutex.lock();
+           clientQueue->queue(client);
+           clientQueue->mutex.unlock();
            qDebug() << "Cliente creado con exito!"<<cont<<" "<<size;
+           qDebug() << "Tamano de la cola: "<< clientQueue->size();
+
            cont++;
-           pause = true;
            sleep(sleepTime+3);
            while (pause)
                sleep(1);
@@ -64,25 +68,13 @@ class ThreadClientAssigner : public QThread{
 public:
     bool running;
     bool pause;
-    ClientQueue* clientQueue;
+   Queue<Client>* clientQueue;
     ListaSimple<Table>* tables;
 
 
     ThreadClientAssigner(){}
 
-
-    Node<Table> * firstVacancy(){
-        Node<Table> * temp = tables->primerNodo;
-        while(temp != nullptr){
-            if (temp->data->state == 0)
-                return temp;
-            else
-                temp = temp->nxt;
-        }
-        return nullptr;
-    }
-
-    void __init__(ClientQueue*clientQueue,ListaSimple<Table>*tables){
+    void __init__(Queue<Client>*clientQueue,ListaSimple<Table>*tables){
         this->running = true;
         this->pause =  false;
         this->tables = tables;
@@ -92,15 +84,16 @@ public:
     void run() {
         while(running){
 
-            if(clientQueue->top != nullptr){
+            if(clientQueue->first != nullptr){
                 Client*client;
                 if(firstVacancy() != nullptr){
-                    client = clientQueue->unqueue(false)->data;
+                    clientQueue->mutex.lock();
+                    client = clientQueue->unqueue()->data;
+                    clientQueue->mutex.unlock();
                     Table* table = firstVacancy()->data;
                     table->setClient(client);
-                    qDebug() << client->id;
+                    qDebug() <<"Cliente# " <<client->id;
                     qDebug() << "Sentado con exito";
-                    pause = true;
                 }
                 else
                     qDebug() << "Esta lleno.... esperando";
@@ -123,6 +116,17 @@ public:
     void Unpause(){
         this->pause = false;
     }
+
+    Node<Table> * firstVacancy(){
+        Node<Table> * temp = tables->primerNodo;
+        while(temp != nullptr){
+            if (temp->data->state == 0)
+                return temp;
+            else
+                temp = temp->nxt;
+        }
+        return nullptr;
+    }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,14 +138,14 @@ public:
     bool running;
     bool pause;
     Waiter*waiter;
-    ListaSimple<Order> *kitchenOrders;
-    ListaSimple<Order>*kitchenReady;
+     ListaSimple<Order> *kitchenOrders;
+     ListaSimple<Order> *kitchenReady;
 
     //Constructor
     ThreadWaiter(){}
 
     //Metodos
-    void __init__(Waiter*waiter,ListaSimple<Order>*kitchenOrders,ListaSimple<Order>*kitchenReady){
+    void __init__(Waiter*waiter, ListaSimple<Order> *kitchenOrders, ListaSimple<Order> * kitchenReady){
         this->running = true;
         this->pause = false;
         this->waiter = waiter;
@@ -155,6 +159,11 @@ public:
             Node<Table>*table = waiter->tables->primerNodo;
 
             while(table != nullptr){
+
+                if(table->data->state == done){
+                    qDebug("Terminaron de comer");
+                    table->data->setFree();
+                }
 
                 if(table->data->state == available || table->data->state == eating || table->data->state == reserved){
                     qDebug() << "Mesa no necesita atencion";
@@ -190,39 +199,45 @@ public:
                         pedido =  new Order(table->data->id,dessert);
                         order = askDessert(table);
                         pedido->setDish(order);
-                         table->data->state=waitingDessert;
+                        table->data->state=waitingDessert;
 
                          qDebug() << "Pidio postre";
                         sleep(3);
                     }
                     qDebug() << "Orden tomada con exito";
+                    qDebug() << "Tamano de la orden: "<<order->size();
 
-                    if(order == nullptr){
+                    if(order->size() == 0){
                         qDebug() << "No hay platos";
 
                         if(table->data->state==waitingEntrance){
                             table->data->state = waitingWaiter;
                             table->data->course = meal;
+                            table= table->nxt;
+                            continue;
                         }
 
                         else if(table->data->state==waitingMeal){
                             table->data->state = waitingWaiter;
                             table->data->course = dessert;
+                            table= table->nxt;
+                            continue;
                         }
 
                         else if(table->data->state==waitingDessert){
                             table->data->state = done;
-                            table->data->course = dessert;
+                            table->data->setFree();
+                            continue;
                         }
 
                     }
                     else{
                         qDebug() << "Entregando en cocina...";
-                        qDebug() << order->size();
 
+                        kitchenOrders->mutex.lock();
                         deliverKitchen(pedido);
+                        kitchenOrders->mutex.unlock();
                         sleep(3);
-                        order->primerNodo =  nullptr;
 
                         qDebug() << "Entrega exitosa";
                     }
@@ -235,17 +250,19 @@ public:
                     Order * order = nullptr;
 
                     qDebug() << "Verificando pedido";
+
+                    kitchenReady->mutex.lock();
                     order = retrieveOrder(kitchenReady,table->data);
-
-
+                    kitchenReady->mutex.unlock();
                     sleep(3);
+
 
                     if(order != nullptr){
                         qDebug() << "Orden lista!";
+                        table->data->mutex.lock();
                         deliverClient(order,table->data);
                         table->data->state = eating;
-                        table->data->state = waitingWaiter;
-                        table->data->course = meal;
+                        table->data->mutex.unlock();
                         qDebug()<<"Entregada con exito";
                     }
                     else
@@ -256,21 +273,24 @@ public:
 
                 }
 
-                else if(table->data->state == waitingMeal){
+              else if(table->data->state == waitingMeal){
                     Order * order = nullptr;
 
                     qDebug() << "Verificando pedido";
-                    order = retrieveOrder(kitchenReady,table->data);
 
-                    qDebug() << "Orden lista!";
+                    kitchenReady->mutex.lock();
+                    order = retrieveOrder(kitchenReady,table->data);
+                    kitchenReady->mutex.unlock();
                     sleep(3);
 
+
+
                     if(order != nullptr){
+                        qDebug() << "Orden lista!";
+                        table->data->mutex.lock();
                         deliverClient(order,table->data);
                         table->data->state = eating;
-                        table->data->state = waitingWaiter;
-
-                        table->data->course = dessert;
+                        table->data->mutex.unlock();
 
                         qDebug()<<"Entregada con exito";
                     }
@@ -285,15 +305,20 @@ public:
                     Order * order = nullptr;
 
                     qDebug() << "Verificando pedido";
-                    order = retrieveOrder(kitchenReady,table->data);
 
-                    qDebug() << "Orden lista!";
+                    kitchenReady->mutex.lock();
+                    order = retrieveOrder(kitchenReady,table->data);
+                    kitchenReady->mutex.unlock();
                     sleep(3);
 
+
                     if(order != nullptr){
+                        qDebug() << "Orden lista!";
+                        table->data->mutex.lock();
                         deliverClient(order,table->data);
                         table->data->state = eating;
-                        qDebug("Terminaron de comer");
+                        table->data->mutex.unlock();
+
                     }
                     else
                         qDebug() <<"No esta listo aun";
@@ -358,7 +383,7 @@ public:
             if (entrada == 0){
                 return nullptr;
             }
-            int prob = (randomInit(4122001)%entrada);
+            int prob = (randomInit(4122001)%100);
             if(prob <= entrada){
                 order->insertar(entradas->search(randomInit(4122001)%entradas->size())->data);
                 size--;
@@ -380,7 +405,7 @@ public:
             if (fuerte == 0){
                 return nullptr;
             }
-            int prob = (randomInit(4122001)%fuerte);
+            int prob = (randomInit(4122001)%100);
             if(prob <= fuerte){
                 order->insertar(fuertes->search(randomInit(4122001)%fuertes->size())->data);
                 size--;
@@ -402,7 +427,7 @@ public:
             if (postre == 0){
                 return nullptr;
             }
-            int prob = (randomInit(4122001)%postre);
+            int prob = (randomInit(4122001)%100);
             if(prob <= postre){
                 order->insertar(postres->search(randomInit(4122001)%postres->size())->data);
                 size--;
@@ -423,12 +448,12 @@ public:
     Chef* chef;
     bool running;
     bool pause;
-    KitchenOrders* orders;
-    KitchenOrders* cooked;
+    ListaSimple<Order>* orders;
+    ListaSimple<Order>* cooked;
 
     ThreadChef(){}
 
-    void __init__(Chef* chef, KitchenOrders* orders, KitchenOrders* cooked){
+    void __init__(Chef* chef,  ListaSimple<Order>* orders,  ListaSimple<Order>* cooked){
         this->running = true;
         this->pause = false;
         this->chef = chef;
@@ -438,26 +463,29 @@ public:
 
     void run(){
         while (running){
-            Node<Order>* order = orders->list->primerNodo;
-            if (order != nullptr){
+            orders->mutex.lock();
+            Node<Order>* order = orders->primerNodo;
+            orders->mutex.unlock();
+            while (order != nullptr){
                 if(order->data->type == chef->type){
                     orders->mutex.lock();
-                    Order * nOrder = orders->errase(order->data);
+                    orders->searchAndDestroy(order->data);
+                    Node<Dish>* dish = order->data->dishes->primerNodo;
                     orders->mutex.unlock();
-                    Node<Dish>* dish = nOrder->dishes->primerNodo;
                     while (dish != nullptr){
                         sleep(dish->data->cookTime);
                         qDebug() << "Plato cocinado: " + dish->data->name;
                         dish = dish->nxt;
                     }
                     cooked->mutex.lock();
-                    cooked->append(nOrder);
+                    cooked->insertar(order->data);
                     cooked->mutex.unlock();
                 }
-                //order = order->nxt;
+                orders->mutex.lock();
+                order = order->nxt;
+                orders->mutex.unlock();
             }
             while (pause)
-                qDebug() << "while2";
                 sleep(1);
         }
     }
@@ -553,9 +581,45 @@ public:
             if(table->state == eating){
                 int eatingTime;
                 if(table->course == entrance){
-                     eatingTime = obtainEntranceTime();
+                     eatingTime = obtainTime(entrance);
+                     qDebug() <<"Tardare "<< eatingTime<<" segundos";
+                     qDebug() << "comiendo...";
+                     sleep(eatingTime);
+                     qDebug() << "terminamos de comer...";
+
+                     table->mutex.lock();
+                     table->course = meal;
+                     table->state = waitingWaiter;
+                     table->mutex.unlock();
+                }
+                else if(table->course == meal){
+                    eatingTime = obtainTime(meal);
+                    qDebug() <<"Tardare "<< eatingTime<<" segundos";
+                    qDebug() << "comiendo...";
+                    sleep(eatingTime);
+                    qDebug() << "terminamos de comer...";
+
+                    table->mutex.lock();
+                    table->course = dessert;
+                    table->state = waitingWaiter;
+                    table->mutex.unlock();
+                    qDebug() << table->state;
+                }
+                else{
+                    eatingTime = obtainTime(dessert);
+                    qDebug() <<"Tardare "<< eatingTime<<" segundos";
+                    qDebug() << "comiendo...";
+                    sleep(eatingTime);
+                    qDebug() << "terminamos de comer...";
+
+                    table->mutex.lock();
+                    table->course = entrance;
+                    table->state = done;
+                    table->mutex.unlock();
                 }
             }
+            else
+                sleep(2);
         }
     }
 
@@ -567,16 +631,21 @@ public:
         this->pause = false;
     }
 
-    int obtainEntranceTime(){
-        ListaSimple<Dish>* orders = table->getDishes();
-        Node<Dish>* temp = orders->primerNodo;
+    int obtainTime(DishType type){
+        ListaSimple<Dish>* dishes = table->getDishes();
+        Node<Dish>* temp = dishes->primerNodo;
+
 
         while(temp != nullptr){
-            if(temp->data->type == entrance){
-
-            }
+            if(temp->data->type == type)
+                return temp->data->eatTime;
+            else
+                temp = temp->nxt;
         }
+        return 1; // Nunca recibe este return
     }
+
+
 
 };
 

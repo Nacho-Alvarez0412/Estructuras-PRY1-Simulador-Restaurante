@@ -21,6 +21,7 @@ template <typename T>
 
 struct Queue{
     //Campos
+    QMutex mutex;
     Node<T> *first, *last;
 
     Queue<T>(){
@@ -50,6 +51,16 @@ struct Queue{
             return nullptr;
         return borrado;
     }
+
+    int size(){
+        Node<T>* temp = first;
+        int cont = 0;
+        while(temp != nullptr){
+            cont++;
+            temp = temp->nxt;
+        }
+        return cont;
+    }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +70,7 @@ template<typename T>
 
 struct ListaSimple{
     //Campos
+    QMutex mutex;
     Node<T>* primerNodo;
 
     ListaSimple<T>(){
@@ -76,35 +88,28 @@ struct ListaSimple{
          temp->nxt = new Node<T>(data);
     }
 
-    Node<T>* searchByData(T* data){
-        if (primerNodo == nullptr)
-            return nullptr;
-        else {
-            Node<T>* ptr = primerNodo;
-            while(ptr != nullptr){
-                if (ptr->data == data)
-                    break;
-                ptr = ptr->nxt;
-            }
-            return ptr;
-        }
-    }
-
     Node<T>* searchAndDestroy(T* value){
         Node<T>* ptr = primerNodo;
-        if (searchByData(value) != nullptr){
+        Node<T>  *deleted;
+        if (ptr != nullptr){
             if (ptr->data == value){
-                primerNodo = ptr->nxt;
-                ptr->nxt = nullptr;
-            } else {
-                while (ptr->nxt->data != value)
-                    ptr = ptr->nxt;
-                Node<T>* deleted = ptr->nxt;
-                ptr->nxt = deleted->nxt;
+                deleted = ptr;
+                primerNodo = deleted->nxt;
                 deleted->nxt = nullptr;
-                ptr = deleted;
+                return deleted;
             }
-            return ptr;
+            else {
+                while (ptr != nullptr){
+                    if (ptr->nxt->data == value) {
+                        deleted = ptr->nxt;
+                        ptr->nxt = deleted->nxt;
+                        deleted->nxt = nullptr;
+                        break;
+                    } else
+                        ptr = ptr->nxt;
+                }
+                return deleted;
+            }
         }
         return nullptr;
     }
@@ -138,6 +143,7 @@ struct ListaSimple{
 template <typename T>
 
 struct Stack{
+    QMutex mutex;
     Node<T> * top;
 
     Stack<T>()= default;
@@ -286,83 +292,9 @@ struct Menu{
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-struct ClientNode{
-
-    // Campos
-    Client * data;
-    ClientNode * nxt;
-
-    // Constructor
-    ClientNode(Client* value){
-        this->data = value;
-    }
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-struct ClientQueue{
-
-    // Campos
-    ClientNode* top;
-    ClientNode* base;
-
-    //Constructor
-    ClientQueue(){
-        top = base = nullptr;
-    }
-
-    void queued(Client*client){
-        ClientNode* node = new ClientNode(client);
-        if (top == base){
-            if (top == nullptr){
-                top = base = node;  // Lista vacia
-            }
-            top->nxt = base = node;  // Lista con 1 nodo
-        } else {
-            base->nxt = node;  // Lista con 2 o mas nodos
-            base = node;
-        }
-    }
-
-    ClientNode* prevBase(){
-        ClientNode* ptr = top;
-        if (top != nullptr)
-            if (top != base){
-                while(ptr->nxt != base){
-                    ptr = ptr->nxt;
-                }
-                return ptr;
-            }
-        return nullptr;
-    }
-
-    ClientNode* unqueue(bool side){  //side=true saca ultimo; side=false saca primero
-        ClientNode* deleted;
-        if (side){
-            deleted = base;
-            base = prevBase();
-            base->nxt = nullptr;
-        } else {
-            deleted = top;
-            top = top->nxt;
-            deleted->nxt = nullptr;
-        }
-        return deleted;
-    }
-
-    bool checkPriority(int id){
-        return base->data->id == id;
-    }
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 struct Table{
     // Campos
-
+    QMutex mutex;
     Client * client;
     int id;
     DishType course;
@@ -403,8 +335,9 @@ struct Table{
 
     void setFree(){
         this->state = available;
+        this->course = entrance;
         this->client = nullptr;
-        this->dishes = nullptr; // Puede llenar la memoria de basura
+        this->dishes = new ListaSimple<Dish>(); // Puede llenar la memoria de basura
     }
 
 };
@@ -551,24 +484,6 @@ struct Cashier{
 
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-struct KitchenOrders{
-    QMutex mutex;
-    ListaSimple<Order>* list;
-
-    KitchenOrders(){
-        this->list = new ListaSimple<Order>;
-    }
-
-    void append(Order* order){
-        list->insertar(order);
-    }
-
-    Order* errase(Order* order){
-        return list->searchAndDestroy(order)->data;
-    }
-};
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
