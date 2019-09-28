@@ -80,11 +80,6 @@ int main(int argc, char *argv[]){
    p.__init__(new Chef(dessert), orders, cooked);
    p.start();
 
-   a.__init__(new Chef(meal), orders, cooked);
-   a.start();
-
-   b.__init__(new Chef(meal), orders, cooked);
-   b.start();
 
    ThreadClientAssigner k1;
    k1.__init__(cola,tables);
@@ -93,6 +88,10 @@ int main(int argc, char *argv[]){
    ThreadClient c1;
    c1.__init__(t1);
    c1.start();
+
+   ThreadClient c21;
+   c21.__init__(t2);
+   c21.start();
 
    ThreadClient c2;
    c2.__init__(t2);

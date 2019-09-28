@@ -43,6 +43,7 @@ public:
            qDebug() << "Tamano de la cola: "<< clientQueue->size();
 
            cont++;
+
            sleep(sleepTime+3);
            while (pause)
                sleep(1);
@@ -100,6 +101,8 @@ public:
             }
             else
                 qDebug() << "No hay nadie en cola";
+
+
 
             sleep(5);
             while(pause){
@@ -469,9 +472,11 @@ public:
 
     void run(){
         while (running){
+
             orders->mutex.lock();
             Node<Order>* order = orders->primerNodo;
             orders->mutex.unlock();
+
             while (order != nullptr){
                 if(order->data->type == chef->type){
                     orders->mutex.lock();
@@ -627,7 +632,7 @@ public:
                     table->mutex.unlock();
                 }
             }
-            while(table->state!=eating)
+            while(table->state != eating)
                 sleep(1);
         }
     }
