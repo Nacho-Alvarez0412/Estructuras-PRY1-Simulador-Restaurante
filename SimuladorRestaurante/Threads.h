@@ -472,14 +472,10 @@ public:
 
     void run(){
         while (running){
-
             orders->mutex.lock();
             Node<Order>* order = orders->primerNodo;
-            orders->mutex.unlock();
-
             while (order != nullptr){
                 if(order->data->type == chef->type){
-                    orders->mutex.lock();
                     orders->searchAndDestroy(order->data);
                     Node<Dish>* dish = order->data->dishes->primerNodo;
                     orders->mutex.unlock();
@@ -492,10 +488,12 @@ public:
                     cooked->insertar(order->data);
                     cooked->mutex.unlock();
                 }
+                else
+                    orders->mutex.unlock();
                 orders->mutex.lock();
                 order = order->nxt;
-                orders->mutex.unlock();
             }
+            orders->mutex.unlock();
             while (pause)
                 sleep(1);
         }
