@@ -136,6 +136,33 @@ struct ListaSimple{
         return cont;
     }
 
+    Node<T>* erraseFirst(){
+        Node<T>* ptr = primerNodo;
+        if (ptr != nullptr){
+            primerNodo = ptr->nxt;
+            ptr->nxt = nullptr;
+        }
+        return ptr;
+    }
+
+    Node<T>* erraseLast(){
+        Node<T>* ptr = primerNodo;
+        if (ptr != nullptr){
+            if (ptr->nxt == nullptr)
+                primerNodo = nullptr;
+            else {
+                Node<T>* deleted;
+                while (ptr->nxt->nxt != nullptr)
+                    ptr = ptr->nxt;
+                deleted = ptr->nxt;
+                ptr->nxt = nullptr;
+                ptr = deleted;
+                //delete deleted;
+            }
+        }
+        return ptr;
+    }
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

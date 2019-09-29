@@ -500,40 +500,44 @@ public:
     }
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-class ThreadDishWasher : public QThread{
+class ThreadLastStation : public QThread{
     //Atributos
 public:
     bool running;
     bool pause;
-    Stack<Dish>* dishes;
-    int total;
+    double cash;
+    int washed;
+    bool mode;
+    ListaSimple<Dish>* dishes;
 
     //Constructor
-    ThreadDishWasher(){}
+    ThreadLastStation(){}
 
     //Metodos
-    void __init__(Stack<Dish>* dishes){
+    void __init__(ListaSimple<Dish>* dishes){
         this->running = true;
         this->pause = false;
+        this->cash = 0;
+        this->washed = 0;
         this->dishes = dishes;
-        this->total = 0;
     }
 
-    void run() {
-        while(running){
-            Node<Dish>* ptr = this->dishes->peek();
-            sleep(2);
-            if (ptr != nullptr){
-                sleep(ptr->data->washTime);
-                this->total++;
-                dishes->pop();
+    void run(){
+        while (running){
+            dishes->mutex.lock();
+            Node<Dish>* dish = peek();
+            dishes->mutex.unlock();
+            if (dish != nullptr){
+                sleep(dish->data->washTime);
+                washed++;
+                cash += dish->data->price;
+                dishes->mutex.lock();
+                errase();
+                dishes->mutex.unlock();
             }
-            else
-                qDebug() << "No hay platos";
-            while(pause)
+            while (pause)
                 sleep(1);
         }
     }
@@ -547,13 +551,49 @@ public:
     }
 
     void addDish(Dish* dish){
-        dishes->push(dish);
+        dishes->insertar(dish);
     }
+
+    Node<Dish>* errase(){
+        bool mode = this->mode;
+        Node<Dish>* dish;
+        if (mode)
+            dish = dishes->erraseFirst();
+        else
+            dish = dishes->erraseLast();
+        return dish;
+    }
+
+    Node<Dish>* peek(){
+        bool mode = this->mode;
+        Node<Dish>* dish = dishes->primerNodo;
+        if (mode)
+            return dish;
+        else {
+            if (dish != nullptr){
+                while (dish->nxt != nullptr)
+                    dish = dish->nxt;
+            }
+            return dish;
+        }
+
+    }
+
+    void append(Node<Order>* order){
+        if (order != nullptr){
+            Node<Dish>* dish = order->data->dishes->primerNodo;
+            while (dish != nullptr){
+                this->dishes->insertar(dish->data);
+                dish = dish->nxt;
+            }
+        }
+    }
+
+
 
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 class ThreadRestaurant : public QThread{
 public:
