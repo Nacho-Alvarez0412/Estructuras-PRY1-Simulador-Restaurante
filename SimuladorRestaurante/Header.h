@@ -46,6 +46,8 @@ struct DinningRoom;
 
 //Uses:
 struct Table;
+//Uses:
+struct Bill;
 struct Waiter;
 struct Cashier;
 struct Dish;

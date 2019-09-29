@@ -163,6 +163,16 @@ struct ListaSimple{
         return ptr;
     }
 
+    void append(ListaSimple<Dish>* listO,ListaSimple<Dish>*nueva){
+        if (nueva != nullptr){
+            Node<Dish>* dish = nueva->primerNodo;
+            while (dish != nullptr){
+                listO->insertar(dish->data);
+                dish = dish->nxt;
+            }
+        }
+    }
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -328,6 +338,7 @@ struct Table{
     TableState state; // Convertir en enum == empty,waiting,waitingOrder,eating,reserved
     ListaSimple<Dish>* dishes;
     Menu* menu;
+    ListaSimple<Bill>*bills;
 
     // Constructor
 
@@ -338,6 +349,7 @@ struct Table{
         this->client = nullptr;
         this->id = id;
         this->dishes = new ListaSimple<Dish>();
+        this->bills = new ListaSimple<Bill>();
     }
 
     // Metodos
@@ -526,5 +538,52 @@ struct Chef{
     }
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+struct Bill{
+    //Campos
+    int total;
+    int table;
+    int client;
+    ListaSimple<Dish>* dishes;
+
+    //Constructor
+    Bill(int table,int client,ListaSimple<Dish>*dishes){
+        this->total = 0;
+        this->table = table;
+        this->client = client;
+        this->dishes = dishes;
+    }
+
+    void checkout(){
+        Node<Dish>* temp = dishes->primerNodo;
+        while(temp!=nullptr){
+            this->total += temp->data->price;
+            temp = temp->nxt;
+        }
+        return;
+    }
+
+    void printDishes(){
+        Node<Dish>* temp = dishes->primerNodo;
+
+        while(temp != nullptr){
+            qDebug()<<temp->data->id<<" "<<temp->data->name<<" "<<temp->data->price;
+            qDebug()<<" ";
+            temp = temp->nxt;
+        }
+        return;
+    }
+
+    void checkoutPrint(){
+        qDebug() << "La mesa #"<<table;
+        qDebug() << " ";
+        qDebug() << "Cliente #"<<client;
+        qDebug() << " ";
+        qDebug() << "Total a pagar: "<<total;
+        qDebug() <<" ";
+        printDishes();
+    }
+};
 
 #endif // STRUCTS_H

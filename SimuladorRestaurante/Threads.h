@@ -41,6 +41,7 @@ public:
            clientQueue->mutex.unlock();
            qDebug() << "Cliente creado con exito!"<<cont<<" "<<size;
            qDebug() << "Tamano de la cola: "<< clientQueue->size();
+           pause = true;
 
            cont++;
 
@@ -95,6 +96,7 @@ public:
                     table->setClient(client);
                     qDebug() <<"Cliente# " <<client->id;
                     qDebug() << "Sentado con exito";
+                    pause = true;
                 }
                 else
                     qDebug() << "Esta lleno.... esperando";
@@ -141,14 +143,15 @@ public:
     bool running;
     bool pause;
     Waiter*waiter;
-     ListaSimple<Order> *kitchenOrders;
-     ListaSimple<Order> *kitchenReady;
+    ListaSimple<Order> *kitchenOrders;
+    ListaSimple<Order> *kitchenReady;
+    ListaSimple<Dish> *dirtyDishes;
 
     //Constructor
     ThreadWaiter(){}
 
     //Metodos
-    void __init__(Waiter*waiter, ListaSimple<Order> *kitchenOrders, ListaSimple<Order> * kitchenReady){
+    void __init__(Waiter*waiter, ListaSimple<Order> *kitchenOrders, ListaSimple<Order> * kitchenReady,ListaSimple<Dish>*dirtyDish){
         this->running = true;
         this->pause = false;
         this->waiter = waiter;
@@ -165,6 +168,11 @@ public:
 
                 if(table->data->state == done){
                     qDebug() << "La mesa # "<< table->data->id<<" Terminaron de comer";
+                    Bill* bill = new Bill(table->data->id,table->data->client->id,table->data->getDishes());
+                    bill->checkout();
+                    table->data->bills->insertar(bill);
+                    bill->checkoutPrint();
+                    dirtyDishes->append(dirtyDishes,table->data->getDishes());
                     table->data->setFree();
                 }
 
@@ -231,9 +239,8 @@ public:
                             continue;
                         }
 
-                        else if(table->data->state==waitingDessert){
+                        else{
                             table->data->state = done;                            
-                            table->data->setFree();
                             table->data->mutex.unlock();
                             table = table->nxt;
                             continue;
@@ -530,9 +537,12 @@ public:
             Node<Dish>* dish = peek();
             dishes->mutex.unlock();
             if (dish != nullptr){
+                qDebug()<<"Lavando plato: "<<dish->data->name;
                 sleep(dish->data->washTime);
+                qDebug()<<"Terminado de lavar";
                 washed++;
                 cash += dish->data->price;
+                qDebug()<<"Ganancias del dia: "<<cash;
                 dishes->mutex.lock();
                 errase();
                 dishes->mutex.unlock();
@@ -578,17 +588,6 @@ public:
         }
 
     }
-
-    void append(ListaSimple<Dish>* list){
-        if (list != nullptr){
-            Node<Dish>* dish = list->primerNodo;
-            while (dish != nullptr){
-                this->dishes->insertar(dish->data);
-                dish = dish->nxt;
-            }
-        }
-    }
-
 
 
 };

@@ -8,6 +8,8 @@ int main(int argc, char *argv[]){
    Queue<Client>* cola = new Queue<Client>();
    Waiter * w1 = new Waiter(tables);
 
+   ListaSimple<Dish>* platosSucios = new ListaSimple<Dish>();
+
    ListaSimple<Dish>* entradas = new ListaSimple<Dish>();
    ListaSimple<Dish>* fuerte = new ListaSimple<Dish>();
    ListaSimple<Dish>* postre = new ListaSimple<Dish>();
@@ -61,10 +63,9 @@ int main(int argc, char *argv[]){
 
 
    ThreadWaiter w;
-   w.__init__(w1,orders,cooked);
+   w.__init__(w1,orders,cooked,platosSucios);
    w.start();
 
-   qDebug() << "Hola";
 
    ThreadClientGenerator k;
    k.__init__(cola);
@@ -79,6 +80,12 @@ int main(int argc, char *argv[]){
 
    p.__init__(new Chef(dessert), orders, cooked);
    p.start();
+
+   a.__init__(new Chef(meal), orders, cooked);
+   a.start();
+
+   b.__init__(new Chef(meal), orders, cooked);
+   b.start();
 
 
    ThreadClientAssigner k1;
@@ -104,6 +111,10 @@ int main(int argc, char *argv[]){
    ThreadClient c4;
    c4.__init__(t4);
    c4.start();
+
+   ThreadLastStation l4;
+   l4.__init__(platosSucios);
+   l4.run();
 
 
    ThreadRestaurant r;
