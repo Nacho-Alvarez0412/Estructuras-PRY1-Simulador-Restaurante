@@ -579,9 +579,9 @@ public:
 
     }
 
-    void append(Node<Order>* order){
-        if (order != nullptr){
-            Node<Dish>* dish = order->data->dishes->primerNodo;
+    void append(ListaSimple<Dish>* list){
+        if (list != nullptr){
+            Node<Dish>* dish = list->primerNodo;
             while (dish != nullptr){
                 this->dishes->insertar(dish->data);
                 dish = dish->nxt;
