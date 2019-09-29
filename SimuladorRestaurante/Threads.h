@@ -157,6 +157,7 @@ public:
         this->waiter = waiter;
         this->kitchenOrders = kitchenOrders;
         this->kitchenReady = kitchenReady;
+        this->dirtyDishes = dirtyDish;
 
     }
 
@@ -172,7 +173,10 @@ public:
                     bill->checkout();
                     table->data->bills->insertar(bill);
                     bill->checkoutPrint();
-                    dirtyDishes->append(dirtyDishes,table->data->getDishes());
+                    ListaSimple<Dish>* platillos = table->data->dishes;
+                    dirtyDishes->mutex.lock();
+                    dirtyDishes->append(dirtyDishes,platillos);
+                    dirtyDishes->mutex.unlock();
                     table->data->setFree();
                 }
 
