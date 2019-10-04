@@ -1,0 +1,13 @@
+debug/chefthread.o
+debug/clientassignergenerator.o
+debug/clientgeneratorthread.o
+debug/clientthread.o
+debug/formconfiguration.o
+debug/main.o
+debug/refreshthread.o
+debug/simuladorwindow.o
+debug/waiterdialog.o
+debug/waiterthread.o
+debug/moc_formconfiguration.o
+debug/moc_simuladorwindow.o
+debug/moc_waiterdialog.o

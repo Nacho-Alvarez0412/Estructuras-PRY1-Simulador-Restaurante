@@ -16,18 +16,35 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    chefthread.cpp \
+    clientassignergenerator.cpp \
+    clientgeneratorthread.cpp \
+    clientthread.cpp \
+    formconfiguration.cpp \
     main.cpp \
-    Simulador.cpp
+    refreshthread.cpp \
+    simuladorwindow.cpp \
+    waiterdialog.cpp \
+    waiterthread.cpp
 
 HEADERS += \
-    Header.h \
     RestaurantStructs.h \
+    StructHeaders.h \
     Structs.h \
-    Threads.h
-    Structs.h
+    chefthread.h \
+    clientassignergenerator.h \
+    clientgeneratorthread.h \
+    clientthread.h \
+    formconfiguration.h \
+    refreshthread.h \
+    simuladorwindow.h \
+    waiterdialog.h \
+    waiterthread.h
 
 FORMS += \
-    GUI.ui
+    formconfiguration.ui \
+    simuladorwindow.ui \
+    waiterdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

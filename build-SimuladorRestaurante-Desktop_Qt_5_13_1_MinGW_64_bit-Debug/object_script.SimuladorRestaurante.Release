@@ -1,0 +1,13 @@
+release/chefthread.o
+release/clientassignergenerator.o
+release/clientgeneratorthread.o
+release/clientthread.o
+release/formconfiguration.o
+release/main.o
+release/refreshthread.o
+release/simuladorwindow.o
+release/waiterdialog.o
+release/waiterthread.o
+release/moc_formconfiguration.o
+release/moc_simuladorwindow.o
+release/moc_waiterdialog.o

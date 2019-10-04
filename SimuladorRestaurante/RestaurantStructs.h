@@ -1,7 +1,6 @@
-#ifndef RESTAURANTSTRUCT_H
-#define RESTAURANTSTRUCT_H
-
-#include "Threads.h"
+#ifndef RESTAURANTSTRUCTS_H
+#define RESTAURANTSTRUCTS_H
+#include "Structs.h"
 
 // -----------------------------------------------   STRUCTS DE LAS PARTES DEL RESTAURANTE   ----------------------------------------------------------
 
@@ -40,4 +39,4 @@ struct DinningRoom{
 
 
 
-#endif // RESTAURANTSTRUCT_H
+#endif // RESTAURANTSTRUCTS_H

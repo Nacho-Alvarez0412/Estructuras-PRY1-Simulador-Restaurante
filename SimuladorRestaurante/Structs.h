@@ -1,6 +1,7 @@
-﻿#ifndef STRUCTS_H
+#ifndef STRUCTS_H
 #define STRUCTS_H
-#include "Header.h"
+
+#include "StructHeaders.h"
 
 template <typename T>
 struct Node{
@@ -277,6 +278,13 @@ struct Client{
         this->id = id;
         this->quant = quant;  // random between 1-6
     }
+
+    QString toString(){
+        QString info = "";
+        info +="Cliente# "+QString::number(this->id)+"\n";
+        info +="Tamaño del cliente: "+QString::number(this->quant)+"\n";
+        return info;
+    }
 };
 
 
@@ -325,6 +333,35 @@ struct Menu{
     }
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+struct Dish{
+    // Campos
+    QString name;
+    ListaSimpleIngredient* ingredients;
+    int cookTime;
+    int eatTime;
+    int washTime;
+    int id;
+    DishType type;
+    int price;
+
+    // Constructor
+
+    Dish(int cookTime,int eatTime,int washTime,int id,DishType type,int price,QString name, ListaSimpleIngredient*ingredients){
+        this->id = id;
+        this->name =name;
+        this->type = type;
+        this->price=price;
+        this->eatTime = eatTime;
+        this->cookTime = cookTime;
+        this->washTime = washTime;
+        this->ingredients = ingredients;
+    }
+
+};
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -339,12 +376,13 @@ struct Table{
     ListaSimple<Dish>* dishes;
     Menu* menu;
     ListaSimple<Bill>*bills;
+    QRect  rectangle;
 
     // Constructor
 
     Table(int id,Menu*menu){
         this->menu = menu;
-        this->state = available;
+        this->state = inactive;
         this->course = entrance;
         this->client = nullptr;
         this->id = id;
@@ -360,7 +398,7 @@ struct Table{
     }
 
     void setReserve(){
-        this->state = reserved;
+        this->state = reservada;
     }
 
 
@@ -377,6 +415,85 @@ struct Table{
         this->course = entrance;
         this->client = nullptr;
         this->dishes = new ListaSimple<Dish>(); // Puede llenar la memoria de basura
+    }
+
+    QString printDishCourse(DishType type){
+        Node<Dish> * temp = dishes->primerNodo;
+        QString info = "";
+        while(temp!=nullptr){
+            if (temp->data->type == type){
+                info += temp->data->name+"\n";
+                temp = temp->nxt;
+            }
+            else
+                temp = temp->nxt;
+        }
+        return info;
+    }
+
+    QString toString(){
+        QString info = "";
+        QString estado;
+        QString platillo;
+
+        switch(state){
+        case available:
+             estado = "disponible";
+             break;
+        case reservada:
+              estado = "reservada";
+              break;
+        case eating:
+             estado = "comiendo";
+             break;
+        case waitingWaiter:
+             estado = "esperando al mesero";
+             break;
+        case waitingEntrance:
+             estado = "esperando entrada";
+             break;
+        case waitingMeal:
+             estado = "esperando plato fuerte";
+             break;
+        case waitingDessert:
+             estado = "esperando postre";
+             break;
+        default:
+             estado = "pagando";
+        }
+
+        switch (course) {
+        case entrance:
+             platillo = "Entrada";
+             break;
+        case meal:
+             platillo = "Plato Fuerte";
+             break;
+        default:
+             platillo = "Postre";
+        }
+
+        if(state == inactive)
+            return "La mesa no se encuentra activa";
+        else if(client!=nullptr){
+            info += "Status: "+estado+"\n";
+            info +="Tipo de platillo actual: "+platillo+"\n";
+            info +="Cliente:\n";
+            info +=client->toString();
+            info +="Platillos:\n";
+            info +="Entradas:\n";
+            info +=printDishCourse(entrance)+"\n";
+            info +="Platos Fuerte:\n";
+            info +=printDishCourse(meal)+"\n";
+            info +="Postres:\n";
+            info +=printDishCourse(dessert)+"\n";
+            return info;
+        }
+        else
+            info += "Status: "+estado+"\n";
+            info +="Cliente: no hay clientes sentados";
+            return info;
+
     }
 
 };
@@ -407,43 +524,27 @@ struct Order{
 
 struct Waiter{
     // Campos
-
+    int id;
     ListaSimple<Table>* tables;
 
     // Constructor
-    Waiter(ListaSimple<Table>* tables){
+    Waiter(int id,ListaSimple<Table>* tables){
+        this->id = id;
         this->tables = tables;
     }
 
-};
+    QString toStringTables(){
+        QString mesas = "";
+        Node<Table>* temp = tables->primerNodo;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-struct Dish{
-    // Campos
-    QString name;
-    ListaSimpleIngredient* ingredients;
-    int cookTime;
-    int eatTime;
-    int washTime;
-    int id;
-    DishType type;
-    int price;
-
-    // Constructor
-
-    Dish(int cookTime,int eatTime,int washTime,int id,DishType type,int price,QString name, ListaSimpleIngredient*ingredients){
-        this->id = id;
-        this->name =name;
-        this->type = type;
-        this->price=price;
-        this->eatTime = eatTime;
-        this->cookTime = cookTime;
-        this->washTime = washTime;
-        this->ingredients = ingredients;
+        while(temp != nullptr){
+            mesas += QString::number(temp->data->id)+" ";
+        }
+        return mesas;
     }
 
 };
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -584,6 +685,16 @@ struct Bill{
         qDebug() <<" ";
         printDishes();
     }
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+struct Lock{
+    //Campos
+    QMutex mutex;
+
+    //Constructor
+    Lock(){}
 };
 
 #endif // STRUCTS_H
