@@ -9,6 +9,12 @@
 #include "waiterthread.h"
 #include "waiterdialog.h"
 #include "chefthread.h"
+#include "dialog.h"
+#include "dialogmenuporcentages.h"
+#include "formconfiguration.h"
+#include "dialogmenu.h"
+#include "threadlaststation.h"
+#include "dialogreserves.h"
 #include <QPainter>
 
 QT_BEGIN_NAMESPACE
@@ -30,6 +36,7 @@ public:
     ChefThread ChefMeal2;
     ChefThread ChefMeal3;
     ChefThread ChefDessert;
+    ThreadLastStation lastStation;
 
     Queue<Client>* entranceQueue = new Queue<Client>();
     ListaSimple<Table>* tables = new ListaSimple<Table>();
@@ -147,6 +154,24 @@ private slots:
 
     void on_CookDessertButton_clicked();
 
+    void on_actionIntervalo_de_llegada_triggered();
+
+    void on_actionProbabilidad_de_plato_fuerte_triggered();
+
+    void on_actionRestart_Simulation_triggered();
+
+    void on_actionVer_Menu_triggered();
+
+    void on_CashPauseButton_clicked();
+
+    void on_TypeCashButton_clicked();
+
+    void on_actionSolicitar_Reserva_triggered();
+
+    void on_actionStart_triggered();
+
+    void on_actionDetener_triggered();
+
 private:
     Ui::SimuladorWindow *ui;
     WaiterDialog * waiterDialog1;
@@ -169,5 +194,8 @@ private:
     WaiterDialog * waiterDialog18;
     WaiterDialog * waiterDialog19;
     WaiterDialog * waiterDialog20;
+    Dialog * setIntervalDialog;
+    DialogMenuPorcentages * setPorcentages;
+
 };
 #endif // SIMULADORWINDOW_H

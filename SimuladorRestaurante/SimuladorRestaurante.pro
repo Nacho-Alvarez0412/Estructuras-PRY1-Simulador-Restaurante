@@ -20,10 +20,15 @@ SOURCES += \
     clientassignergenerator.cpp \
     clientgeneratorthread.cpp \
     clientthread.cpp \
+    dialog.cpp \
+    dialogmenu.cpp \
+    dialogmenuporcentages.cpp \
+    dialogreserves.cpp \
     formconfiguration.cpp \
     main.cpp \
     refreshthread.cpp \
     simuladorwindow.cpp \
+    threadlaststation.cpp \
     waiterdialog.cpp \
     waiterthread.cpp
 
@@ -35,13 +40,22 @@ HEADERS += \
     clientassignergenerator.h \
     clientgeneratorthread.h \
     clientthread.h \
+    dialog.h \
+    dialogmenu.h \
+    dialogmenuporcentages.h \
+    dialogreserves.h \
     formconfiguration.h \
     refreshthread.h \
     simuladorwindow.h \
+    threadlaststation.h \
     waiterdialog.h \
     waiterthread.h
 
 FORMS += \
+    dialog.ui \
+    dialogmenu.ui \
+    dialogmenuporcentages.ui \
+    dialogreserves.ui \
     formconfiguration.ui \
     simuladorwindow.ui \
     waiterdialog.ui

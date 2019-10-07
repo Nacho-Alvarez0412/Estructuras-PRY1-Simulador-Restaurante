@@ -5,7 +5,7 @@ WaiterThread::WaiterThread()
 
 }
 
-void WaiterThread::__init__(Waiter*waiter, ListaSimple<Order> *kitchenOrders, ListaSimple<Order> * kitchenReady,ListaSimple<Dish>*dirtyDish){
+void WaiterThread::__init__(Lock*lock,Waiter*waiter, ListaSimple<Order> *kitchenOrders, ListaSimple<Order> * kitchenReady,ListaSimple<Dish>*dirtyDish,int orderTime,QTextEdit*cashierTextField){
     this->running = true;
     this->pause = false;
     this->waiter = waiter;
@@ -13,6 +13,9 @@ void WaiterThread::__init__(Waiter*waiter, ListaSimple<Order> *kitchenOrders, Li
     this->kitchenReady = kitchenReady;
     this->dirtyDishes = dirtyDish;
     this->bitacora = "";
+    this->orderTime = orderTime;
+    this->cashierTextField = cashierTextField;
+    this->lock = lock;
 
 }
 
@@ -20,14 +23,21 @@ void WaiterThread::run(){
     while(running){
         Node<Table>*table = waiter->tables->primerNodo;
 
+        while(pause){
+           sleep(1);
+        }
+
         while(table != nullptr){
 
             if(table->data->state == done){
                 bitacora += "La mesa # "+QString::number( table->data->id)+" Terminaron de comer\n";
+                lock->mutex.lock();
                 Bill* bill = new Bill(table->data->id,table->data->client->id,table->data->getDishes());
                 bill->checkout();
                 table->data->bills->insertar(bill);
                 bill->checkoutPrint();
+                cashierTextField->append(bill->billPrint);
+                lock->mutex.unlock();
                 ListaSimple<Dish>* platillos = table->data->dishes;
                 dirtyDishes->mutex.lock();
                 dirtyDishes->append(dirtyDishes,platillos);
@@ -38,41 +48,47 @@ void WaiterThread::run(){
             if(table->data->state == available || table->data->state == eating || table->data->state == reservada){
                 bitacora += "La mesa # "+ QString::number( table->data->id)+ " no necesita atencion\n";
                 table = table->nxt;
-                sleep(3);
+                sleep(orderTime);
                 continue;
             }
 
             if(table->data->state == waitingWaiter){
                 bitacora += "Atendiendo mesa #" +QString::number(table->data->id)+"\n";
                 Order* pedido = nullptr;
-                ListaSimple<Dish> *order;
+                ListaSimple<Dish> *order = new ListaSimple<Dish>();
 
                 if(table->data->course == entrance){
                     pedido =  new Order(table->data->id,entrance);
+                    table->data->menu->mutex.lock();
                     order = askEntrance(table);
+                    table->data->menu->mutex.unlock();
                     pedido->setDish(order);
                     table->data->state=waitingEntrance;
 
                      bitacora += "Pidio entrada\n";
-                    sleep(3);
+                    sleep(orderTime);
                 }
                 else if(table->data->course == meal){
                     pedido =  new Order(table->data->id,meal);
+                    table->data->menu->mutex.lock();
                     order = askMeal(table);
+                    table->data->menu->mutex.unlock();
                     pedido->setDish(order);
                     table->data->state=waitingMeal;
 
                     bitacora += "Pidio plato fuerte\n";
-                    sleep(3);
+                    sleep(orderTime);
                 }
                 else if(table->data->course == dessert){
                     pedido =  new Order(table->data->id,dessert);
+                    table->data->menu->mutex.lock();
                     order = askDessert(table);
+                    table->data->menu->mutex.unlock();
                     pedido->setDish(order);
                     table->data->state=waitingDessert;
 
                      bitacora += "Pidio postre\n";
-                    sleep(3);
+                    sleep(orderTime);
                 }
                 bitacora += "Orden tomada con exito\n";
                 bitacora += "Tamano de la orden: "+QString::number(order->size())+"\n";
@@ -112,7 +128,7 @@ void WaiterThread::run(){
                     kitchenOrders->mutex.lock();
                     deliverKitchen(pedido);
                     kitchenOrders->mutex.unlock();
-                    sleep(3);
+                    sleep(orderTime);
 
                     bitacora += "Entrega exitosa\n";
                 }
@@ -129,7 +145,7 @@ void WaiterThread::run(){
                 kitchenReady->mutex.lock();
                 order = retrieveOrder(kitchenReady,table->data);
                 kitchenReady->mutex.unlock();
-                sleep(3);
+                sleep(orderTime);
 
 
                 if(order != nullptr){
@@ -156,7 +172,7 @@ void WaiterThread::run(){
                 kitchenReady->mutex.lock();
                 order = retrieveOrder(kitchenReady,table->data);
                 kitchenReady->mutex.unlock();
-                sleep(3);
+                sleep(orderTime);
 
 
 
@@ -184,7 +200,7 @@ void WaiterThread::run(){
                 kitchenReady->mutex.lock();
                 order = retrieveOrder(kitchenReady,table->data);
                 kitchenReady->mutex.unlock();
-                sleep(3);
+                sleep(orderTime);
 
 
                 if(order != nullptr){
@@ -202,10 +218,7 @@ void WaiterThread::run(){
                 continue;
             }
 
-            sleep(3);
-
-            while(pause)
-                sleep(1);
+            sleep(orderTime);
         }
     }
 }
@@ -256,7 +269,7 @@ ListaSimple<Dish> * WaiterThread::askEntrance(Node<Table>*table){
 
     while(size != 0){
         if (entrada == 0){
-            return nullptr;
+            return order;
         }
         int prob = (randomInit(4122001)%100);
         if(prob <= entrada){
@@ -278,7 +291,7 @@ ListaSimple<Dish> * WaiterThread::askEntrance(Node<Table>*table){
 
     while(size != 0){
         if (fuerte == 0){
-            return nullptr;
+            return order;
         }
         int prob = (randomInit(4122001)%100);
         if(prob <= fuerte){
@@ -300,7 +313,7 @@ ListaSimple<Dish> * WaiterThread::askEntrance(Node<Table>*table){
 
     while(size != 0){
         if (postre == 0){
-            return nullptr;
+            return order;
         }
         int prob = (randomInit(4122001)%100);
         if(prob <= postre){

@@ -1,5 +1,6 @@
 #include "clientassignergenerator.h"
 
+
 ClientAssignerGenerator::ClientAssignerGenerator()
 {
 
@@ -21,7 +22,19 @@ void ClientAssignerGenerator::run() {
 
         if(clientQueue->first != nullptr){
             Client*client;
-            if(firstVacancy() != nullptr){
+            if(existeReserva()){
+                if(isReserve(clientQueue->last->data->id)){
+                    client = clientQueue->unqueueLast()->data;
+                    Table* table = firstReserve()->data;
+                    table->setClient(client);
+                    textField->append("Cliente# "+QString::number(client->id));
+                    textField->append("Sentado con exito");
+                    clearReserve(client->id);
+                    continue;
+
+                }
+            }
+            if(!isFull()){
                 clientQueue->mutex.lock();
                 client = clientQueue->unqueue()->data;
                 clientQueue->mutex.unlock();
@@ -36,7 +49,7 @@ void ClientAssignerGenerator::run() {
         else
             textField->append("No hay nadie en cola");
 
-        sleep(5);
+        sleep(1);
     }
 }
 
@@ -49,12 +62,83 @@ void ClientAssignerGenerator::Unpause(){
 }
 
 Node<Table> * ClientAssignerGenerator::firstVacancy(){
+    Node<Table> * temp = tables->search(random.bounded(tables->size()-1));
+    while(temp->data->state != available){
+        temp = tables->search(random.bounded(tables->size()-1));
+    }
+    return temp;
+}
+
+bool ClientAssignerGenerator::isReserve(int id){
+    for(int i=0 ; i<20 ; i++ ){
+        if(reserves[i] == id)
+            return true;
+    }
+    return false;
+}
+
+bool ClientAssignerGenerator::existeReserva(){
+    Node<Table>*temp = tables->primerNodo;
+
+    while(temp!=nullptr){
+        if(temp->data->state == reservada)
+            return true;
+        else
+            temp = temp->nxt;
+    }
+    return false;
+}
+
+bool ClientAssignerGenerator::isFull(){
+    Node<Table>* temp = tables->primerNodo;
+
+    while(temp!=nullptr){
+        if(temp->data->state == available)
+            return false;
+        temp = temp->nxt;
+    }
+    return true;
+}
+
+bool ClientAssignerGenerator::setReserve(int id){
+    Node<Table> * temp = tables->primerNodo;
+
+    for(int i = 0 ; i<20 ; i++){
+        if(reserves[i] == 0){
+            reserves[i] = id;
+            break;
+        }
+    }
+
+    while(temp != nullptr){
+        if (temp->data->state == available){
+            temp->data->state = reservada;
+            return true;
+        }
+        else
+            temp = temp->nxt;
+    }
+    return false;
+}
+
+Node<Table> * ClientAssignerGenerator::firstReserve(){
     Node<Table> * temp = tables->primerNodo;
     while(temp != nullptr){
-        if (temp->data->state == 0)
+        if (temp->data->state == reservada)
             return temp;
         else
             temp = temp->nxt;
     }
     return nullptr;
 }
+
+void ClientAssignerGenerator::clearReserve(int id){
+    for(int i=0 ; i<20 ; i++ ){
+        if(reserves[i] == id){
+            reserves[i] = 0;
+        }
+    }
+}
+
+
+

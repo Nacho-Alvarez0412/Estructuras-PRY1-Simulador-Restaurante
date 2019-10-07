@@ -18,6 +18,7 @@ public:
     void Pause();
     void Unpause();
     int obtainTime(DishType);
+    void eat(int);
 };
 
 #endif // CLIENTTHREAD_H

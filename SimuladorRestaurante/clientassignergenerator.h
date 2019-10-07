@@ -12,6 +12,8 @@ public:
     Queue<Client>* clientQueue;
     ListaSimple<Table>* tables;
     QTextEdit * textField;
+    int reserves[20] = {};
+    QRandomGenerator random;
 
     //Constructor
     ClientAssignerGenerator();
@@ -22,6 +24,12 @@ public:
     void Pause();
     void Unpause();
     Node<Table> * firstVacancy();
+    Node<Table> * firstReserve();
+    void clearReserve(int);
+    bool setReserve(int);
+    bool isReserve(int);
+    bool existeReserva();
+    bool isFull();
 };
 
 #endif // CLIENTASSIGNERGENERATOR_H

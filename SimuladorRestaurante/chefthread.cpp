@@ -1,9 +1,6 @@
 #include "chefthread.h"
 
-ChefThread::ChefThread()
-{
-
-}
+ChefThread::ChefThread(){}
 
 void ChefThread::__init__(Lock*lock,QTextEdit*textField,Chef* chef,  ListaSimple<Order>* orders,  ListaSimple<Order>* cooked){
     this->running = true;

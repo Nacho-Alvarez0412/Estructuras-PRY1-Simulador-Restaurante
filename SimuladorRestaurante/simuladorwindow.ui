@@ -36,10 +36,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <weight>75</weight>
-      <italic>false</italic>
-      <bold>true</bold>
+      <family>Monotype Corsiva</family>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="verticalScrollBarPolicy">
@@ -60,11 +61,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
+      <family>Monotype Corsiva</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
       <italic>true</italic>
-      <bold>true</bold>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -82,11 +83,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <italic>false</italic>
-      <bold>true</bold>
+      <family>Monotype Corsiva</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -104,11 +105,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <italic>false</italic>
-      <bold>true</bold>
+      <family>Monotype Corsiva</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -129,10 +130,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <weight>75</weight>
-      <italic>false</italic>
-      <bold>true</bold>
+      <family>Monotype Corsiva</family>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="verticalScrollBarPolicy">
@@ -153,11 +155,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <italic>false</italic>
-      <bold>true</bold>
+      <family>Monotype Corsiva</family>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -175,9 +177,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>10</pointsize>
-      <italic>false</italic>
+      <family>Monotype Corsiva</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -195,9 +199,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>8</pointsize>
-      <italic>false</italic>
+      <family>Monotype Corsiva</family>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="readOnly">
@@ -215,9 +221,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>10</pointsize>
-      <italic>false</italic>
+      <family>Monotype Corsiva</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -235,9 +243,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>10</pointsize>
-      <italic>false</italic>
+      <family>Monotype Corsiva</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -248,7 +258,7 @@
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>870</y>
+      <y>890</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -270,7 +280,7 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>870</y>
+      <y>890</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -292,7 +302,7 @@
     <property name="geometry">
      <rect>
       <x>550</x>
-      <y>870</y>
+      <y>890</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -314,7 +324,7 @@
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>870</y>
+      <y>890</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -336,7 +346,7 @@
     <property name="geometry">
      <rect>
       <x>950</x>
-      <y>870</y>
+      <y>890</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -358,15 +368,15 @@
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>670</y>
+      <y>690</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -380,15 +390,15 @@
     <property name="geometry">
      <rect>
       <x>950</x>
-      <y>670</y>
+      <y>690</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -402,15 +412,15 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>670</y>
+      <y>690</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -424,15 +434,15 @@
     <property name="geometry">
      <rect>
       <x>550</x>
-      <y>670</y>
+      <y>690</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -446,15 +456,15 @@
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>670</y>
+      <y>690</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -468,15 +478,15 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>270</y>
+      <y>290</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -490,15 +500,15 @@
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>470</y>
+      <y>490</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -512,15 +522,15 @@
     <property name="geometry">
      <rect>
       <x>950</x>
-      <y>470</y>
+      <y>490</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -534,15 +544,15 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>470</y>
+      <y>490</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -556,15 +566,15 @@
     <property name="geometry">
      <rect>
       <x>550</x>
-      <y>470</y>
+      <y>490</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -578,15 +588,15 @@
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>270</y>
+      <y>290</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -600,15 +610,15 @@
     <property name="geometry">
      <rect>
       <x>950</x>
-      <y>270</y>
+      <y>290</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -622,15 +632,15 @@
     <property name="geometry">
      <rect>
       <x>550</x>
-      <y>270</y>
+      <y>290</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -644,15 +654,15 @@
     <property name="geometry">
      <rect>
       <x>750</x>
-      <y>470</y>
+      <y>490</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -666,15 +676,15 @@
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>270</y>
+      <y>290</y>
       <width>80</width>
       <height>25</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial</family>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
       <weight>50</weight>
       <italic>true</italic>
       <bold>false</bold>
@@ -734,9 +744,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>10</pointsize>
-      <italic>false</italic>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -754,9 +766,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>10</pointsize>
-      <italic>false</italic>
+      <family>Monotype Corsiva</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -774,9 +788,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>10</pointsize>
-      <italic>false</italic>
+      <family>Monotype Corsiva</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -794,7 +810,10 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -812,7 +831,10 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -830,7 +852,10 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -848,7 +873,10 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -866,7 +894,10 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -884,8 +915,11 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <italic>false</italic>
+      <family>Monotype Corsiva</family>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="readOnly">
@@ -903,15 +937,705 @@
     </property>
     <property name="font">
      <font>
-      <family>Arial Black</family>
-      <pointsize>10</pointsize>
-      <italic>false</italic>
+      <family>Monotype Corsiva</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
      <string>Chefs:</string>
     </property>
    </widget>
+   <widget class="QLabel" name="TableTime1">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>250</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime2">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>250</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime3">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>250</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime4">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>250</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime5">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>250</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime7">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>450</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime9">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>450</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime8">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>450</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime10">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>450</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime6">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>450</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime12">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>650</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime14">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>650</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime13">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>650</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime15">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>650</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime11">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>650</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime17">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>850</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime19">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>850</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime18">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>850</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime20">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>850</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TableTime16">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>850</y>
+      <width>55</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="CashTextField">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>40</y>
+      <width>361</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="WashTextField">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>40</y>
+      <width>361</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOn</enum>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="CashPauseButton">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>120</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Lavar</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="TypeCashButton">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>120</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Cola</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="CashierLabel">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>10</y>
+      <width>361</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Caja:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="CashierLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>10</y>
+      <width>361</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Lavaplatos:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>-10</y>
+      <width>131</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="cantDePlatos">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>-10</y>
+      <width>55</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Monotype Corsiva</family>
+      <pointsize>16</pointsize>
+      <weight>50</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <zorder>cantDePlatos</zorder>
+   <zorder>label</zorder>
+   <zorder>QueueTextField</zorder>
+   <zorder>QueueLabel</zorder>
+   <zorder>QueueSizeLabel</zorder>
+   <zorder>ButtonClientGenerator</zorder>
+   <zorder>ClientAssignerTextFiel</zorder>
+   <zorder>AssignTablesButton</zorder>
+   <zorder>AssignerLabel</zorder>
+   <zorder>TableInfoTextFiedl</zorder>
+   <zorder>TableLabel</zorder>
+   <zorder>TableIDLabel</zorder>
+   <zorder>Table16Button</zorder>
+   <zorder>Table17Button</zorder>
+   <zorder>Table18Button</zorder>
+   <zorder>Table19Button</zorder>
+   <zorder>Table20Button</zorder>
+   <zorder>Table11Button</zorder>
+   <zorder>Table15Button</zorder>
+   <zorder>Table12Button</zorder>
+   <zorder>Table13Button</zorder>
+   <zorder>Table14Button</zorder>
+   <zorder>Table2Button</zorder>
+   <zorder>Table6Button</zorder>
+   <zorder>Table10Button</zorder>
+   <zorder>Table7Button</zorder>
+   <zorder>Table8Button</zorder>
+   <zorder>Table4Button</zorder>
+   <zorder>Table5Button</zorder>
+   <zorder>Table3Button</zorder>
+   <zorder>Table9Button</zorder>
+   <zorder>Table1Button</zorder>
+   <zorder>chefLabel1</zorder>
+   <zorder>chefLabel1_2</zorder>
+   <zorder>chefLabel1_3</zorder>
+   <zorder>ChefDessertLabel</zorder>
+   <zorder>ChefMealLabel</zorder>
+   <zorder>ChefEntranceLabel</zorder>
+   <zorder>CookDessertButton</zorder>
+   <zorder>CookMealButton1</zorder>
+   <zorder>CookMealButton2</zorder>
+   <zorder>CookMealButton3</zorder>
+   <zorder>CookEntranceButton</zorder>
+   <zorder>ChefTextField</zorder>
+   <zorder>ChefTextLabel</zorder>
+   <zorder>TableTime1</zorder>
+   <zorder>TableTime2</zorder>
+   <zorder>TableTime3</zorder>
+   <zorder>TableTime4</zorder>
+   <zorder>TableTime5</zorder>
+   <zorder>TableTime7</zorder>
+   <zorder>TableTime9</zorder>
+   <zorder>TableTime8</zorder>
+   <zorder>TableTime10</zorder>
+   <zorder>TableTime6</zorder>
+   <zorder>TableTime12</zorder>
+   <zorder>TableTime14</zorder>
+   <zorder>TableTime13</zorder>
+   <zorder>TableTime15</zorder>
+   <zorder>TableTime11</zorder>
+   <zorder>TableTime17</zorder>
+   <zorder>TableTime19</zorder>
+   <zorder>TableTime18</zorder>
+   <zorder>TableTime20</zorder>
+   <zorder>TableTime16</zorder>
+   <zorder>CashTextField</zorder>
+   <zorder>WashTextField</zorder>
+   <zorder>CashPauseButton</zorder>
+   <zorder>TypeCashButton</zorder>
+   <zorder>CashierLabel_2</zorder>
+   <zorder>CashierLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -950,29 +1674,42 @@
    </widget>
    <widget class="QMenu" name="menuTiempos">
     <property name="title">
-     <string>Tiempos</string>
+     <string>Configuracion</string>
     </property>
+    <addaction name="actionIntervalo_de_llegada"/>
+    <addaction name="actionProbabilidad_de_plato_fuerte"/>
    </widget>
    <widget class="QMenu" name="menuReset">
     <property name="title">
      <string>Reset</string>
     </property>
+    <addaction name="actionRestart_Simulation"/>
    </widget>
    <widget class="QMenu" name="menuMenu">
     <property name="title">
      <string>Menu</string>
     </property>
+    <addaction name="actionVer_Menu"/>
    </widget>
    <widget class="QMenu" name="menuReservas">
     <property name="title">
      <string>Reservas</string>
     </property>
+    <addaction name="actionSolicitar_Reserva"/>
+   </widget>
+   <widget class="QMenu" name="menuSimulacion">
+    <property name="title">
+     <string>Simulacion</string>
+    </property>
+    <addaction name="actionStart"/>
+    <addaction name="actionDetener"/>
    </widget>
    <addaction name="menuMeseros"/>
    <addaction name="menuTiempos"/>
    <addaction name="menuReset"/>
    <addaction name="menuMenu"/>
    <addaction name="menuReservas"/>
+   <addaction name="menuSimulacion"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionMesero_1">
@@ -1136,6 +1873,41 @@
    </property>
    <property name="visible">
     <bool>false</bool>
+   </property>
+  </action>
+  <action name="actionIntervalo_de_llegada">
+   <property name="text">
+    <string>Intervalo de llegada</string>
+   </property>
+  </action>
+  <action name="actionProbabilidad_de_plato_fuerte">
+   <property name="text">
+    <string>Probabilidad de platillos</string>
+   </property>
+  </action>
+  <action name="actionRestart_Simulation">
+   <property name="text">
+    <string>Reiniciar Simulacion</string>
+   </property>
+  </action>
+  <action name="actionVer_Menu">
+   <property name="text">
+    <string>Ver Menu</string>
+   </property>
+  </action>
+  <action name="actionSolicitar_Reserva">
+   <property name="text">
+    <string>Solicitar Reserva</string>
+   </property>
+  </action>
+  <action name="actionStart">
+   <property name="text">
+    <string>Iniciar</string>
+   </property>
+  </action>
+  <action name="actionDetener">
+   <property name="text">
+    <string>Detener</string>
    </property>
   </action>
  </widget>

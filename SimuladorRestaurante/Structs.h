@@ -2,6 +2,21 @@
 #define STRUCTS_H
 
 #include "StructHeaders.h"
+#include <QRandomGenerator>
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+struct Lock{
+    //Campos
+    QMutex mutex;
+
+    //Constructor
+    Lock(){}
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 template <typename T>
 struct Node{
@@ -41,6 +56,10 @@ struct Queue{
         }
     }
 
+    Node<T>* peek(){
+        return first;
+    }
+
     Node<T>* unqueue(){
         Node<T> * borrado = first;
 
@@ -51,6 +70,26 @@ struct Queue{
         else
             return nullptr;
         return borrado;
+    }
+
+    Node<T>* unqueueLast(){
+        Node<T>* temp = first;
+
+        if(!isEmpty()){
+            if(first == last){
+                Node<T>* borrado = first;
+                first = last = nullptr;
+                return borrado;
+            }
+            while(temp->nxt->nxt != nullptr){
+                temp = temp->nxt;
+            }
+            Node<T>* borrado = temp->nxt;
+            last = temp;
+            temp->nxt = nullptr;
+            borrado->nxt = nullptr;
+            return borrado;
+        }
     }
 
     int size(){
@@ -288,6 +327,36 @@ struct Client{
 };
 
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+struct Dish{
+    // Campos
+    QString name;
+    ListaSimpleIngredient* ingredients;
+    int cookTime;
+    int eatTime;
+    int washTime;
+    int id;
+    DishType type;
+    int price;
+
+    // Constructor
+
+    Dish(int cookTime,int eatTime,int washTime,int id,DishType type,int price,QString name, ListaSimpleIngredient*ingredients){
+        this->id = id;
+        this->name =name;
+        this->type = type;
+        this->price=price;
+        this->eatTime = eatTime;
+        this->cookTime = cookTime;
+        this->washTime = washTime;
+        this->ingredients = ingredients;
+    }
+
+};
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct Menu{
@@ -295,6 +364,7 @@ struct Menu{
     int Entrada;
     int PlatoFuerte;
     int Postre;
+    QMutex mutex;
     ListaSimple<Dish>* MenuEntrada;
     ListaSimple<Dish>* MenuPlatoFuerte;
     ListaSimple<Dish>* MenuPostre;
@@ -331,36 +401,43 @@ struct Menu{
     void setProbPostre(int value){
         this->Postre = value;
     }
-};
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    QString printEntrance(){
+        QString menu = "";
+        Node<Dish>* temp = MenuEntrada->primerNodo;
 
-struct Dish{
-    // Campos
-    QString name;
-    ListaSimpleIngredient* ingredients;
-    int cookTime;
-    int eatTime;
-    int washTime;
-    int id;
-    DishType type;
-    int price;
+        while(temp!=nullptr){
+            menu += temp->data->name+"\t"+QString::number(temp->data->price)+"\n"+"\n";
+            temp = temp->nxt;
+        }
 
-    // Constructor
-
-    Dish(int cookTime,int eatTime,int washTime,int id,DishType type,int price,QString name, ListaSimpleIngredient*ingredients){
-        this->id = id;
-        this->name =name;
-        this->type = type;
-        this->price=price;
-        this->eatTime = eatTime;
-        this->cookTime = cookTime;
-        this->washTime = washTime;
-        this->ingredients = ingredients;
+        return menu;
     }
 
-};
+    QString printMeal(){
+        QString menu = "";
+        Node<Dish>* temp = MenuPlatoFuerte->primerNodo;
 
+        while(temp!=nullptr){
+            menu += temp->data->name+"\t"+QString::number(temp->data->price)+"\n"+"\n";
+            temp = temp->nxt;
+        }
+
+        return menu;
+    }
+
+    QString printDessert(){
+        QString menu = "";
+        Node<Dish>* temp = MenuPostre->primerNodo;
+
+        while(temp!=nullptr){
+            menu += temp->data->name + "\t" + QString::number(temp->data->price) + "\n" + "\n";
+            temp = temp->nxt;
+        }
+
+        return menu;
+    }
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -377,6 +454,7 @@ struct Table{
     Menu* menu;
     ListaSimple<Bill>*bills;
     QRect  rectangle;
+    QLabel* label;
 
     // Constructor
 
@@ -532,17 +610,6 @@ struct Waiter{
         this->id = id;
         this->tables = tables;
     }
-
-    QString toStringTables(){
-        QString mesas = "";
-        Node<Table>* temp = tables->primerNodo;
-
-        while(temp != nullptr){
-            mesas += QString::number(temp->data->id)+" ";
-        }
-        return mesas;
-    }
-
 };
 
 
@@ -647,6 +714,7 @@ struct Bill{
     int table;
     int client;
     ListaSimple<Dish>* dishes;
+    QString billPrint;
 
     //Constructor
     Bill(int table,int client,ListaSimple<Dish>*dishes){
@@ -654,6 +722,7 @@ struct Bill{
         this->table = table;
         this->client = client;
         this->dishes = dishes;
+        this->billPrint = "";
     }
 
     void checkout(){
@@ -665,36 +734,26 @@ struct Bill{
         return;
     }
 
-    void printDishes(){
+    QString printDishes(){
         Node<Dish>* temp = dishes->primerNodo;
+        QString dishes = "";
 
         while(temp != nullptr){
-            qDebug()<<temp->data->id<<" "<<temp->data->name<<" "<<temp->data->price;
-            qDebug()<<" ";
+            dishes += (QString::number(temp->data->id)) + " " + temp->data->name + " " + (QString::number(temp->data->price))+"\n";
             temp = temp->nxt;
         }
-        return;
+        return dishes;
     }
 
     void checkoutPrint(){
-        qDebug() << "La mesa #"<<table;
-        qDebug() << " ";
-        qDebug() << "Cliente #"<<client;
-        qDebug() << " ";
-        qDebug() << "Total a pagar: "<<total;
-        qDebug() <<" ";
-        printDishes();
+        billPrint += "----------------------------------------\n";
+        billPrint += "La mesa #" + (QString::number(table))+"\n";
+        billPrint += "Cliente #" + (QString::number(client))+"\n";
+        billPrint += "Total a pagar: " + (QString::number(total))+"\n";
+        billPrint += printDishes();
+        billPrint += "----------------------------------------\n";
     }
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-struct Lock{
-    //Campos
-    QMutex mutex;
-
-    //Constructor
-    Lock(){}
-};
 
 #endif // STRUCTS_H

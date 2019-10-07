@@ -60,7 +60,7 @@ public:
         SpinBoxCantMesas->setObjectName(QString::fromUtf8("SpinBoxCantMesas"));
         SpinBoxCantMesas->setGeometry(QRect(290, 250, 43, 25));
         SpinBoxCantMesas->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
-        SpinBoxCantMesas->setMinimum(1);
+        SpinBoxCantMesas->setMinimum(10);
         SpinBoxCantMesas->setMaximum(20);
         SpinBoxCantMeseros = new QSpinBox(FormConfiguration);
         SpinBoxCantMeseros->setObjectName(QString::fromUtf8("SpinBoxCantMeseros"));

@@ -7,20 +7,19 @@ ClientThread::ClientThread()
 
 void ClientThread::__init__(Table* table){
     this->table = table;
+    this->running = true;
 }
 
 void ClientThread::run(){
-    qDebug()<<"inciado"<<table->id;
     while(running){
         if(table->state == eating){
             int eatingTime;
             if(table->course == entrance){
                  eatingTime = obtainTime(entrance);
-                 qDebug() <<table->id;
-                 qDebug() <<"Tardare "<< eatingTime<<" segundos";
-                 qDebug() << "comiendo...";
-                 sleep(eatingTime);
-                 qDebug() << "terminamos de comer...";
+
+                 table->mutex.lock();
+                 eat(eatingTime);
+                 table->mutex.unlock();
 
                  table->mutex.lock();
                  table->course = meal;
@@ -29,25 +28,22 @@ void ClientThread::run(){
             }
             else if(table->course == meal){
                 eatingTime = obtainTime(meal);
-                qDebug() <<table->id;
-                qDebug() <<"Tardare "<< eatingTime<<" segundos";
-                qDebug() << "comiendo...";
-                sleep(eatingTime);
-                qDebug() << "terminamos de comer...";
+
+                table->mutex.lock();
+                eat(eatingTime);
+                table->mutex.unlock();
 
                 table->mutex.lock();
                 table->course = dessert;
                 table->state = waitingWaiter;
                 table->mutex.unlock();
-                qDebug() << table->state;
             }
             else{
                 eatingTime = obtainTime(dessert);
-                qDebug() <<table->id;
-                qDebug() <<"Tardare "<< eatingTime<<" segundos";
-                qDebug() << "comiendo...";
-                sleep(eatingTime);
-                qDebug() << "terminamos de comer...";
+
+                table->mutex.lock();
+                eat(eatingTime);
+                table->mutex.unlock();
 
                 table->mutex.lock();
                 table->course = entrance;
@@ -82,4 +78,13 @@ int ClientThread::obtainTime(DishType type){
             temp = temp->nxt;
     }
     return 1; // Nunca recibe este return
+}
+
+void ClientThread::eat(int time){
+    while (time!=0) {
+        table->label->setNum(time);
+        time--;
+        sleep(1);
+    }
+    table->label->setNum(0);
 }

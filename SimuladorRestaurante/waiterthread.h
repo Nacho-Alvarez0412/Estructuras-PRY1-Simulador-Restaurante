@@ -15,9 +15,12 @@ public:
     ListaSimple<Order> *kitchenReady;
     ListaSimple<Dish> *dirtyDishes;
     QString bitacora;
+    QTextEdit* cashierTextField;
+    Lock* lock;
+    int orderTime;
 
     WaiterThread();
-    void __init__(Waiter*waiter, ListaSimple<Order> *kitchenOrders, ListaSimple<Order> * kitchenReady,ListaSimple<Dish>*dirtyDish);
+    void __init__(Lock*lock,Waiter*waiter, ListaSimple<Order> *kitchenOrders, ListaSimple<Order> * kitchenReady,ListaSimple<Dish>*dirtyDish,int,QTextEdit*);
     void run();
     Order* retrieveOrder(ListaSimple<Order>*ready,Table* table);
     void Pause();
